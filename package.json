@@ -1,0 +1,29 @@
+{
+  "name": "01-galeria",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.4.0",
+    "animate.css": "^4.1.1",
+    "sweetalert": "^2.1.2",
+    "vue": "^3.3.4",
+    "vue-js-modal": "^2.0.1",
+    "vue-router": "^4.2.4",
+    "vue-sweetalert2": "^5.0.5",
+    "vue-toastification": "^1.7.14",
+    "vue-toastify": "^2.0.0-alpha.1",
+    "vue3-carousel": "^0.3.1",
+    "vue3-toast-notification": "^0.0.3",
+    "vue3-toastify": "^0.1.11"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.2.3",
+    "vite": "^4.4.0"
+  }
+}
