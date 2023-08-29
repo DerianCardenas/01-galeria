@@ -41,6 +41,7 @@
       position: 'top',
       showConfirmButton: true,
       timer: 5000,
+      
       timerProgressBar: true,
       didOpen: (toast) => {
       toast.addEventListener('mouseenter', Swal.stopTimer)
@@ -66,39 +67,51 @@
   function setTags(){
     const popup = document.getElementById('popup');
     tagsImages.value.map(tags => {
+      console.log(tags);
         tagsAnteriores.value.push(tags)
     });
     popup.style.display = 'block';
   }
   function closePopup() {
-    const user = JSON.parse(localStorage.getItem("user"))
-    user.imagenes = imagenesAnteriores.value;
-    user.detalles = tagsImages.value;
-    localStorage.setItem('user', JSON.stringify(user));
-    localStorage.setItem(user.username, JSON.stringify(user));
-
-    imagenes.value = [];
-    const popup = document.getElementById('popup');
-    popup.style.display = 'none';
-    var mensaje =""
-    if(imagenes.value.length == 1)
-      mensaje="Una foto fue cargada con éxito"
-    else if(imagenes.value.length > 1)
-      mensaje = "Se cargaron " + imagenes.value.length  + " fotos correctamente"
-    Swal.fire({
-      title: 'Fotos subidas',
-      text:mensaje,
-      icon: 'success',
-      showCancelButton: true,
-      cancelButtonText: "Permanecer aquí",
-      confirmButtonColor: '#6094fe',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Ir a página principal'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        router.push("/inicio")
-      }
+    var breakCondition = false;
+    tagsImages.value.map(tags => {
+      if(tags.tags.length == 0) breakCondition = true;
     })
+    if(!breakCondition){
+      const user = JSON.parse(localStorage.getItem("user"))
+      user.imagenes = imagenesAnteriores.value;
+      user.detalles = tagsImages.value;
+      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem(user.username, JSON.stringify(user));
+
+      imagenes.value = [];
+      const popup = document.getElementById('popup');
+      popup.style.display = 'none';
+      var mensaje =""
+      if(imagenes.value.length == 1)
+        mensaje="Una foto fue cargada con éxito"
+      else if(imagenes.value.length > 1)
+        mensaje = "Se cargaron " + imagenes.value.length  + " fotos correctamente"
+      Swal.fire({
+        title: 'Fotos subidas',
+        text:mensaje,
+        icon: 'success',
+        showCancelButton: true,
+        cancelButtonText: "Permanecer aquí",
+        confirmButtonColor: '#6094fe',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ir a página principal'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          router.push("/inicio")
+        }
+      })
+    }else{
+      Toast.fire({
+        icon:"error",
+        title:"Ingresa al menos una categoría en cada foto"
+      })
+    }
 }
   // Cargar las imágenes desde el localStorage al montar el componente
   onMounted(() => {
@@ -160,7 +173,7 @@
     background-color: #fff;
     padding: 20px;
     border: 1px solid #505050;
-    z-index: 9999;
+    z-index: 1;
   }
   
   .popup h3 {

@@ -74,15 +74,18 @@ const newUsername = ref("");
 const newPassword = ref("");
 const newPassword2 = ref("");
 const blockSave = computed( () => {
+    console.log(newUsername.value == "" && newPassword.value == "" && newPassword2.value == "" && newPfp.value == "")
     if(newUsername.value == "" && newPassword.value == "" && newPassword2.value == "" && newPfp.value == "" )
-        return true;
-    else if(newUsername.value != "" && newPassword2.value != "" && (newUsername.value != newPassword2.value) )
-        return true;
-    else
         return false;
+    else if((newPassword.value == "" && newPassword2.value != "") || (newPassword.value != "" && newPassword2.value == ""))
+        return false;
+    else if(newPassword.value != "" && newPassword2.value != "" && (newPassword.value != newPassword2.value) )
+        return false;
+    else
+        return true;
 })
 if(pfp == "")
-imgSrc.value = "https://thenounproject.com/api/private/icons/4590259/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0"
+imgSrc.value = "https://static.vecteezy.com/system/resources/previews/020/911/740/original/user-profile-icon-profile-avatar-user-icon-male-icon-face-icon-profile-icon-free-png.png"
 else
 imgSrc.value = pfp
 
@@ -156,7 +159,7 @@ const saveData = () => {
         userEdited.edited_at = date;
         localStorage.removeItem(userExist.username);
         localStorage.removeItem("user");
-        localStorage.setItem(newUsername.value,JSON.stringify(userEdited))
+        localStorage.setItem(userEdited.username,JSON.stringify(userEdited))
         localStorage.setItem("user",JSON.stringify(userEdited))
         router.push("/inicio");
 

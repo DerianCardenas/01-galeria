@@ -8,8 +8,12 @@
       <div class="topbar">
         <h1>GALERIA</h1>
         <div class="profile-info">  
-          <img class="icon" :src="data.pfp" title="MI PERFIL" srcset="" @click="profile">
-          <button  @click="closeSession">Cerrar sesión</button>
+          <img @click="showOptions" class="icon" :src="imagen" title="MI PERFIL" srcset="">
+          <!-- <button  @click="closeSession">Cerrar sesión</button> -->
+          <ul id="profile-options" class="profile-options">
+            <li @click="profile()">Editar Perfil</li>
+            <li @click="closeSession()">Cerrar sesión</li>
+          </ul>
         </div> 
       </div>
       <div class="cont-view">    
@@ -20,12 +24,26 @@
 </template>
 <script setup>
 import { RouterView } from 'vue-router';
+import {ref} from "vue";
 import SidebarVue from '../components/Sidebar.vue';
 import router from '../router';
 const data = JSON.parse(localStorage.getItem("user"));
+const showItems = ref(false)
+const imagen = ref("")
+if(data.pfp == "")
+  imagen.value="https://static.vecteezy.com/system/resources/previews/020/911/740/original/user-profile-icon-profile-avatar-user-icon-male-icon-face-icon-profile-icon-free-png.png"
+else
+  imagen.value = data.pfp
 const closeSession = () => {
   localStorage.removeItem("user");
   router.push("/login")
+}
+const showOptions = () => {
+  if(showItems.value)
+    document.getElementById("profile-options").classList.remove("show")
+  else
+    document.getElementById("profile-options").classList.add("show")
+  showItems.value = !showItems.value
 }
 const profile = () => {
   router.push("/perfil")
@@ -60,12 +78,8 @@ const profile = () => {
 .topbar div{
   margin: 0;
 }
-.profile-info{
-  display: flex;
-  justify-content:space-between;
-  width: 350px;
-}
 .icon{
+  border-radius: 50%;
   width:100px;
 }
 .icon:hover{
@@ -76,15 +90,26 @@ const profile = () => {
   justify-content: space-around;
   width: 50%;
 }
-button{
-  background-color: transparent;
-  border-radius: 1em;
-  height: 2.5em;
-  margin-top: 2.1em;
-  width: 50%;
-}
-button:hover{
-  background-color: rgb(255, 255, 236);
+.profile-options li{
+  background-color: rgb(96,148,254);
+  border-radius: .1em;
   cursor: pointer;
+  color: white;
+  display: block;
+  margin-bottom: .2em;
+  padding: .2em;
+}
+.profile-options{
+  display: none;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;  
+  position: absolute;
+  transition: .7s all ease-in;
+  text-align: left;
+}
+
+.show{
+  display: block;
 }
 </style>

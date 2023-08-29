@@ -2,7 +2,7 @@
 <template>
   <Transition>
     <div class="animate">
-      <h3>MIS FOTOS</h3>
+      <h3 v-if="imagenes.length > 0">MIS FOTOS</h3>
       <div v-if="imagenes.length > 0" class="index">
         <div>
           <ContFotos :showImageFullScreen="showImageFullScreen" :imagenes="imagenes"/>
@@ -15,11 +15,28 @@
             </div>
             <img :src="currentImage" alt="">
             <div class="cont-tags">
-              <span class="span-tag" v-for="tags in imageTags">
-                {{ tags }}
-                <i class="fas fa-tag"></i> 
+              <span @click="editTags" class="edit-tags span-tag">
+                EDITAR ETIQUETAS
+                <i class="fa-solid fa-edit" ></i>
               </span>
-              <span @click="deletePhoto" class="cont-delete span-tag">
+              
+              <div v-if="!addTags">
+                <span class="span-tag" v-for="tags in imageTags">
+                  {{ tags }}
+                  <i class="fas fa-tag"></i> 
+                </span>
+              </div>
+              <div v-else>
+                <span class="span-tag" v-for="(tag, i) in newTags">
+                  <input type="text" v-model="newTags[i]">
+                  <i class="fas fa-tag"></i> 
+                </span>
+              </div>
+              <span v-if="addTags" @click="saveTags" class="cont-save span-tag">
+                GUARDAR ETIQUETAS
+                <i class="fas fa-save"></i> 
+              </span>
+              <span v-else @click="deletePhoto" class="cont-delete span-tag">
                 ELIMINAR FOTO
                 <i class="fas fa-trash"></i> 
               </span>
@@ -49,9 +66,11 @@ const imageTags = ref([]);
 const user = JSON.parse(localStorage.getItem("user"))
 const imagenes = user.imagenes
 const imgDetails = user.detalles
+const addTags = ref(false);
+const newTags = ref([])
 function showNextImage() {
   currentImageIndex.value = (currentImageIndex.value + 1) % imagenes.length;
-  imageTags.value = imgDetails[currentImageIndex.value].tags
+  imgDetails[currentImageIndex.value].tags == undefined ?   imageTags.value =  [] : imageTags.value = imgDetails[currentImageIndex.value].tags
   currentImage.value = imagenes[currentImageIndex.value];
 }
 
@@ -76,6 +95,30 @@ const hideImageFullScreen = () => {
   showModal.value = false;
   document.body.style.overflow = 'auto';
 };
+const editTags = () => {
+  newTags.value = []
+  for(let i = 0; i < 3 ; i++) {
+    var tagArr = imageTags.value[i]
+    if(tagArr == undefined  || tagArr == null)
+      newTags.value.push("")
+    else
+      newTags.value.push(tagArr)
+  }
+  addTags.value = true
+}
+const saveTags =() => {
+  addTags.vañie = false;
+  user.detalles[currentImageIndex.value].tags = [];
+  newTags.value.map(tag => {
+    if(tag!= "")user.detalles[currentImageIndex.value].tags.push(tag)
+  });
+  localStorage.setItem('user', JSON.stringify(user));
+  localStorage.setItem(user.username, JSON.stringify(user));
+  newTags.value = [];
+  hideImageFullScreen();
+  router.go(0)
+  
+}
 const deletePhoto = () => {
   Swal.fire({
       customClass:"swal",
@@ -188,7 +231,9 @@ h3{
   display: block;
   transition: filter 0.3s ease; /* Agrega una transición para suavizar el efecto */
 }
-
+.edit-icon{
+  margin-top:0;
+}
 /* Estilos para el modal */
 .modal {
   display: flex;
@@ -256,12 +301,26 @@ h3{
 .right-arrow {
   right: 10px;
 }
-.cont-delete{
+.cont-delete, .cont-save, .edit-tags{
   transition: .5s all ease-out;
 }
 .cont-delete:hover{
-  background-color: red;
+  background-color: #d9534f;
   color: white;
   cursor: pointer;
+}
+.cont-save:hover{
+  background-color: #5cb85c;
+  color: white;
+  cursor: pointer;
+}
+.edit-tags:hover{
+  background-color: #5bc0de;
+  color: white;
+  cursor: pointer;
+}
+.span-tag{
+  border-radius: .5em;
+  padding: 1em;
 }
 </style>
