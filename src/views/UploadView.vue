@@ -67,7 +67,6 @@
   function setTags(){
     const popup = document.getElementById('popup');
     tagsImages.value.map(tags => {
-      console.log(tags);
         tagsAnteriores.value.push(tags)
     });
     popup.style.display = 'block';

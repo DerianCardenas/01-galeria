@@ -74,7 +74,6 @@ const newUsername = ref("");
 const newPassword = ref("");
 const newPassword2 = ref("");
 const blockSave = computed( () => {
-    console.log(newUsername.value == "" && newPassword.value == "" && newPassword2.value == "" && newPfp.value == "")
     if(newUsername.value == "" && newPassword.value == "" && newPassword2.value == "" && newPfp.value == "" )
         return false;
     else if((newPassword.value == "" && newPassword2.value != "") || (newPassword.value != "" && newPassword2.value == ""))
