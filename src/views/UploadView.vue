@@ -195,9 +195,12 @@
     color: #fff;
     padding: 5px 10px;
     border: none;
+    border-radius: .5em;
     cursor: pointer;
   }
   .cont-inputs, .cont-inputs input{
+    box-shadow: #505050;
+    border-radius: .5em;
     margin: 1em auto;
   }
   

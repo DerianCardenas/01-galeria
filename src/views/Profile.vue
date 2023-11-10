@@ -156,11 +156,35 @@ const saveData = () => {
         userEdited.detalles = userExist.detalles;
         userEdited.created_at = userExist.created_at;
         userEdited.edited_at = date;
-        localStorage.removeItem(userExist.username);
-        localStorage.removeItem("user");
-        localStorage.setItem(userEdited.username,JSON.stringify(userEdited))
-        localStorage.setItem("user",JSON.stringify(userEdited))
-        router.push("/inicio");
+        try{
+            localStorage.setItem(userEdited.username,JSON.stringify(userEdited))
+            localStorage.setItem("user",JSON.stringify(userEdited))
+                    router.push("/inicio")
+        }catch(e){
+            Swal.fire({
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown'
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutDown'
+                },
+                title: 'La foto de perfil excede el limite permitido',
+                text: "No se pudo actualizar la información",
+                icon: 'error',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Reintentar',
+                cancelButtonText: 'Cancelars',
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    router.go(0)
+                }else{
+                    router.push("/inicio")
+                }
+            })
+        }
+        
 
 }
 </script>
