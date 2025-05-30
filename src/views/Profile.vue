@@ -1,64 +1,102 @@
 <template>
-    <div class="animate">
-        <h3>INFORMACIÓN DEL PERFIL</h3>
-        <div class="cont-details">
-            <div class="cont-datauser">
-                <div class="cont-img">
-                    <img :src="imgSrc" class="pfp" alt="">
-                </div>
-                <div class="cont-info">
-                    <div class="row">
-                        <label class="label-form" for="">Nombre de Usuario:</label>
-                        <input class="input-form" disabled :value="data.username" type="text">
-                    </div>
-                    <div class="row">
-                        <label class="label-form" for="">Contraseña:</label>
-                        <div class="cont-password">
-                            <input class="input-form" disabled :value="data.password" type="password" id="password">
-                            <i id="showPassword" @click="showPassword()" class="fa fa-eye icon-eye"></i>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <label class="label-form" for="">Creación de la cuenta:</label>
-                        <input class="input-form" disabled :value="data.created_at"  type="text">
-                    </div>
-                </div>
+  <div class="animate-fade-in">
+    <div class="max-w-4xl mx-auto p-6 bg-white rounded-xl shadow-md">
+      <h3 class="text-2xl font-bold text-gray-800 mb-6">INFORMACIÓN DEL PERFIL</h3>
+
+      <div class="space-y-6">
+        <div class="flex flex-col md:flex-row gap-6">
+          <div class="w-24 h-24 md:w-32 md:h-32 flex-shrink-0">
+            <img :src="imgSrc" class="w-full h-full object-cover rounded-full border-4 border-blue-100" alt="Profile">
+          </div>
+
+          <div class="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="space-y-1">
+              <label class="block text-sm font-medium text-gray-600">Nombre de Usuario:</label>
+              <input class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50"
+                     disabled :value="data.username" type="text">
             </div>
-            <div class="cont-btn">
-                <button  v-if="!editUser" class="btn-edit" @click="editUser =  true" > EDITAR</button>
-                <button  v-if="editUser" class="btn-cancel" @click="editUser =  false" > CANCELAR</button>
+
+            <div class="space-y-1">
+              <label class="block text-sm font-medium text-gray-600">Contraseña:</label>
+              <div class="relative">
+                <input class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50"
+                       disabled :value="data.password" :type="showPass1 ? 'text' : 'password'" id="password">
+                <button @click="showPass1 = !showPass1" class="absolute right-3 top-2.5 text-gray-500 hover:text-gray-700">
+                  <i :class="showPass1 ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+                </button>
+              </div>
             </div>
-            <div v-if="editUser" class="cont-changes">
-                <h4>Cambiar mis datos</h4>
-                <div class="cont-datos">
-                    <div class="newImage">    
-                        <img :src="newPfp" alt="" srcset=""> <br>
-                        <input type="file" @change="handleFileInputChange">
-                    </div>
-                    <div class="newUserData">
-                        <div class="row">
-                            <label class="label-form" for="">Nuevo nombre de usuario:</label>
-                            <input class="input-form" v-model="newUsername" type="text">
-                        </div>
-                        <div class="row">
-                            <label class="label-form" >Nueva contraseña:</label>
-                            <div class="cont-password">
-                                <input class="input-form" v-model="newPassword" type="password" id="password2">
-                                <i id="showPassword" @click="showPassword2()" class="fa fa-eye icon-eye"></i>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <label class="label-form" >Repita la contraseña: <span v-if="newPassword != newPassword2" style="color:red;">Las contraseñas no coinciden</span> </label>
-                            <input class="input-form" v-model="newPassword2" type="password">
-                        </div>
-                        <div class="cont-btn-save">
-                            <button v-if="blockSave" class="btn-save" @click="openModal" > GUARDAR</button>
-                        </div>
-                    </div>
-                </div>
+
+            <div class="space-y-1">
+              <label class="block text-sm font-medium text-gray-600">Creación de la cuenta:</label>
+              <input class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50"
+                     disabled :value="data.created_at" type="text">
             </div>
+          </div>
         </div>
+
+        <div class="flex justify-end">
+          <button v-if="!editUser" @click="editUser = true"
+                  class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
+            EDITAR
+          </button>
+          <button v-if="editUser" @click="editUser = false"
+                  class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition">
+            CANCELAR
+          </button>
+        </div>
+
+        <div v-if="editUser" class="border-t pt-6 mt-6">
+          <h4 class="text-lg font-semibold text-gray-700 mb-4">Cambiar mis datos</h4>
+
+          <div class="flex flex-col md:flex-row gap-6">
+            <div class="w-full md:w-1/3">
+              <div class="mb-4">
+                <img :src="newPfp" class="w-full max-h-48 object-contain rounded-lg border" alt="New Profile">
+              </div>
+              <label class="block w-full px-4 py-2 bg-blue-50 text-blue-600 rounded-md cursor-pointer text-center hover:bg-blue-100 transition">
+                Seleccionar imagen
+                <input type="file" @change="handleFileInputChange" class="hidden">
+              </label>
+            </div>
+
+            <div class="w-full md:w-2/3 space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-600 mb-1">Nuevo nombre de usuario:</label>
+                <input v-model="newUsername"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-600 mb-1">Nueva contraseña:</label>
+                <div class="relative">
+                  <input v-model="newPassword" :type="showPass2 ? 'text' : 'password'" id="password2"
+                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                  <button @click="showPass2 = !showPass2" class="absolute right-3 top-2.5 text-gray-500 hover:text-gray-700">
+                    <i :class="showPass2 ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-600 mb-1">Repita la contraseña:</label>
+                <input v-model="newPassword2" type="password"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                <p v-if="newPassword !== newPassword2" class="text-sm text-red-500 mt-1">Las contraseñas no coinciden</p>
+              </div>
+
+              <div class="flex justify-end pt-2">
+                <button v-if="blockSave" @click="openModal"
+                        class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition">
+                  GUARDAR CAMBIOS
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </template>
 <script setup>
 import {ref, computed} from "vue"
@@ -74,16 +112,16 @@ const newUsername = ref("");
 const newPassword = ref("");
 const newPassword2 = ref("");
 const blockSave = computed( () => {
-    if(newUsername.value == "" && newPassword.value == "" && newPassword2.value == "" && newPfp.value == "" )
+    if(newUsername.value === "" && newPassword.value === "" && newPassword2.value === "" && newPfp.value === "" )
         return false;
-    else if((newPassword.value == "" && newPassword2.value != "") || (newPassword.value != "" && newPassword2.value == ""))
+    else if((newPassword.value === "" && newPassword2.value !== "") || (newPassword.value !== "" && newPassword2.value === ""))
         return false;
-    else if(newPassword.value != "" && newPassword2.value != "" && (newPassword.value != newPassword2.value) )
+    else if(newPassword.value !== "" && newPassword2.value !== "" && (newPassword.value !== newPassword2.value) )
         return false;
     else
         return true;
 })
-if(pfp == "")
+if(pfp === "")
 imgSrc.value = "https://static.vecteezy.com/system/resources/previews/020/911/740/original/user-profile-icon-profile-avatar-user-icon-male-icon-face-icon-profile-icon-free-png.png"
 else
 imgSrc.value = pfp
@@ -91,7 +129,7 @@ imgSrc.value = pfp
 
 const showPassword = () => {
     const passwordInput = document.getElementById('password');
-    if (passwordInput.type == 'password') {
+    if (passwordInput.type === 'password') {
         passwordInput.type = 'text';
     } else {
         passwordInput.type = 'password';
@@ -99,7 +137,7 @@ const showPassword = () => {
 }
 const showPassword2 = () => {
     const passwordInput = document.getElementById('password2');
-    if (passwordInput.type == 'password') {
+    if (passwordInput.type === 'password') {
         passwordInput.type = 'text';
     } else {
         passwordInput.type = 'password';
@@ -145,13 +183,13 @@ const saveData = () => {
         const date = new Date().toLocaleDateString();
         var userEdited ={}
         var userExist = data;
-        newUsername.value != "" ? userEdited.username = newUsername.value : userEdited.username = userExist.username 
-        if(newPassword.value != "" && newPassword2.value != ""){
+        newUsername.value !== "" ? userEdited.username = newUsername.value : userEdited.username = userExist.username
+        if(newPassword.value !== "" && newPassword2.value !== ""){
             userEdited.password = newPassword.value;
         }else{
             userEdited.password = userExist.password;
         }
-        newPfp.value != "" ? userEdited.pfp = newPfp.value : userEdited.pfp = userExist.pfp
+        newPfp.value !== "" ? userEdited.pfp = newPfp.value : userEdited.pfp = userExist.pfp
         userEdited.imagenes = userExist.imagenes;
         userEdited.detalles = userExist.detalles;
         userEdited.created_at = userExist.created_at;
@@ -188,129 +226,24 @@ const saveData = () => {
 
 }
 </script>
-<style scoped>
-.animate{
-  animation-duration: 0.75s;
-  animation-duration: .5s;
-  animation-delay: 0.5s;
-  animation-name: animate-fade;
-  animation-timing-function: cubic-bezier(.26,.53,.74,1.48);
-  animation-fill-mode: backwards;
+<style>
+.animate-fade-in {
+  animation: fadeIn 0.75s cubic-bezier(.26,.53,.74,1.48) 0.5s backwards;
 }
-.animate.fade {
-  animation-name: animate-fade;
-  animation-timing-function: ease;
+
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
-@keyframes animate-fade {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+
+/* Smooth transitions for interactive elements */
+button, input[type="file"] {
+  transition: all 0.2s ease;
 }
-.cont-details{
-    width:95%;
-}
-.cont-datauser{
-    display: flex;
-    justify-content:space-between;
-}
-.cont-img{
-    width:15%;
-    img{
-        width:50%;
-    }
-}
-.cont-password{
-  display: flex;
-  flex-direction: row-reverse;
-  width: 100%;
-}
-.password{
-  padding-right: 10px;
-}
-.icon-eye{
-  cursor: pointer;
-  margin: .35em .2em;
-  position: absolute;
-}
-.pfp{
-    width:100px;
-}
-.cont-info{
-    display: flex;
-    justify-content: space-between;
-    width:85%;
-}
-.cont-btn{
-    display: flex;
-    flex-direction: row-reverse;
-    margin-top: 1em;
-}
-.btn-edit{
-    background-color: rgb(96,148,254);
-    border-radius: .5em;
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
-    padding: .5em 1.5em;
-}
-.btn-cancel{
-    background-color: rgb(88, 90, 93);
-    border-radius: .5em;
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
-    padding: .5em 1.5em;
-}
-.row{
-    width: 30%;
-}
-.input-form, .label-form{
-    display: block;
-    width: 100%;
-}
-.label-form{
-    text-align: left;
-    margin-bottom: .5em;
-}
-.input-form{
-    border: 1px solid rgb(100, 100, 100);
-    border-radius: .5em;;
-    height: 20px;
-}
-.cont-datos{
-    display: flex;
-    width: 100%;
-}
-.newImage{
-    display: block;
-    width:40%;
-    height: 150px;
-}
-.newImage img{
-    max-height: 150px !important;
-    max-width: 90% !important;
-}
-.newUserData{
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    width: 60%;
-    .row,  .cont-btn-save{
-        margin-top: 1em;
-        width: 48%;
-    }
-    .cont-btn-save{
-        display: flex;
-        flex-direction: row-reverse;
-        flex-direction: column-reverse;
-        .btn-save{
-            background-color: rgb(40, 167, 69);
-            border-radius: .5em;
-            color: white;
-            cursor: pointer;
-            font-weight: bold;
-            max-height: 100px;
-            padding: .75em 1.75em;
-        }
-    }
+
+/* Custom focus styles */
+input:focus, button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5); /* This replaces ring-blue-500 */
 }
 </style>

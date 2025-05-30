@@ -8,9 +8,46 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  --font-text: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-headings: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 #app {
   text-align: center;
   width: 100%;
+}
+.font-gotham {
+  font-family: 'Gotham', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.font-montserrat {
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 700; /* Bold para títulos */
+}
+
+body {
+  font-family: var(--font-text), serif;
+  font-weight: 400; /* Regular para texto normal */
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headings), serif;
+  font-weight: 600; /* SemiBold para títulos */
+}
+
+/* Estilos específicos para diferentes pesos */
+.title-bold {
+  font-family: var(--font-headings), serif;
+  font-weight: 700; /* Bold para énfasis */
+}
+
+.text-medium {
+  font-weight: 500; /* Medium para destacar texto */
+}
+
+.text-light {
+  font-weight: 300; /* Light para texto secundario */
+}
+button {
+  font-family: var(--font-headings), serif;
 }

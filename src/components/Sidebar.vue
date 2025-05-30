@@ -9,9 +9,9 @@ const router = useRouter();
             <h3>Galería Web</h3>
         </div>
         <div class="items">
-            <li @click="router.push('/inicio')" >Mis fotos</li>
-            <li @click="router.push('/buscar')">Buscar</li>
-            <li @click="router.push('/subir')">Subir</li>
+            <li class="" @click="router.push('/inicio')" >Mis fotos</li>
+            <li class="" @click="router.push('/buscar')">Buscar</li>
+            <li class="" @click="router.push('/subir')">Subir</li>
         </div>
     </nav>
 </template>
@@ -41,7 +41,7 @@ li{
     font-size: 1.1em;
     margin-top:1em;
     padding: .5em 1em;
-    transition: .5s all ease-in;
+    transition: .25s all ease-in;
 }
 li:hover{
     background-color: rgb(96,148,254);

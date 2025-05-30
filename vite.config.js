@@ -1,7 +1,8 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-  plugins: [vue()],
-  base: '/01-galeria/', // reemplaza 'nombre_del_repositorio' con el nombre de tu repositorio en GitHub
+  plugins: [vue(), tailwindcss()],
+  base: '/01-galeria/'
 })
