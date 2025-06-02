@@ -39,15 +39,8 @@ h1{
   justify-content: space-around;
   width: 50%;
 }
-button{
-  background-color: transparent;
-  border-radius: 1em;
-  height: 2.5em;
-  margin-top: 2.1em;
-  width: 40%;
-}
-button:hover{
-  background-color: rgb(255, 255, 236);
-  cursor: pointer;
-}
+/* Removed general button styling from App.vue scoped styles.
+   Global styles from style.css will apply to standard buttons.
+   If App.vue has specific buttons needing unique styles,
+   they should use specific classes. */
 </style>
