@@ -60,9 +60,9 @@ const props = defineProps({
   align-items: center;
   justify-content: center;
   /* Example for adding an icon using pseudo-elements (FontAwesome example)
-  font-family: "Font Awesome 5 Free"; 
-  font-weight: 900; 
-  content: "\f00e"; /* fa-search icon 
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f00e"; /* fa-search icon
   color: var(--text-light-color);
   font-size: 2rem;
   */
@@ -86,6 +86,6 @@ const props = defineProps({
   transform: scale(1.1); /* Zoom effect on image inside */
 }
 
-/* Removed all modal, scrollbar, .fas, .index styles as they are not used 
+/* Removed all modal, scrollbar, .fas, .index styles as they are not used
    or are handled by HomeView.vue or globally. */
 </style>

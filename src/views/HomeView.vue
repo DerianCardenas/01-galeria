@@ -119,7 +119,7 @@ h3{
 }
 /* Modern Scrollbar Styles */
 ::-webkit-scrollbar {
-  width: 10px; 
+  width: 10px;
   height: 10px;
 }
 ::-webkit-scrollbar-track {
@@ -127,7 +127,7 @@ h3{
   border-radius: 5px;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: var(--primary-color); 
+  background-color: var(--primary-color);
   border-radius: 5px;
   border: 2px solid var(--secondary-color); /* Creates padding around thumb */
 }

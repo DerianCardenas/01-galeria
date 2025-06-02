@@ -66,7 +66,7 @@ export function usePhotoGallery(initialImagenes, initialImgDetails, router) {
 
   const saveTags = () => {
     const tagsToSave = newTags.value.map(tag => tag.trim()).filter(tag => tag !== '');
-    
+
     if (!imgDetails.value[currentImageIndex.value]) {
       imgDetails.value[currentImageIndex.value] = { tags: [] };
     }
