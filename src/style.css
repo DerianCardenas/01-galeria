@@ -10,8 +10,21 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  /* Font Variables from existing file */
   --font-text: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-headings: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* New Color Palette */
+  --primary-color: #6094FE;
+  --secondary-color: #F0F4F8; /* Light gray for backgrounds */
+  --accent-color: #FFD700;   /* Gold for highlights */
+  --text-color: #333333;     /* Dark gray for readability */
+  --text-light-color: #FFFFFF; /* White for text on dark backgrounds */
+  --success-color: #5CB85C; /* Green for success */
+  --danger-color: #D9534F;  /* Red for danger/delete */
+  --info-color: #5BC0DE;    /* Blue for info */
+  --border-color: #DDDDDD;  /* For borders and dividers */
 }
 
 #app {
@@ -30,11 +43,15 @@
 body {
   font-family: var(--font-text), serif;
   font-weight: 400; /* Regular para texto normal */
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  margin: 0; /* Reset default margin */
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-headings), serif;
   font-weight: 600; /* SemiBold para títulos */
+  color: var(--text-color);
 }
 
 /* Estilos específicos para diferentes pesos */
@@ -50,6 +67,75 @@ h1, h2, h3, h4, h5, h6 {
 .text-light {
   font-weight: 300; /* Light para texto secundario */
 }
-button {
+
+/* Default Button Styling */
+button, .button { /* Added .button class for non-button elements styled as buttons */
+  font-family: var(--font-headings), serif;
+  background-color: var(--primary-color);
+  color: var(--text-light-color);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none; /* For <a> tags styled as buttons */
+  display: inline-block; /* For <a> tags */
+  transition: background-color 0.3s ease-out, transform 0.1s ease, box-shadow 0.3s ease-out;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+}
+
+button:hover, .button:hover {
+  background-color: #4a7bdc; /* Darker shade of primary-color */
+  transform: translateY(-1px); /* Subtle lift effect */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Enhanced shadow on hover */
+}
+
+button:active, .button:active {
+  transform: translateY(0px); /* Click effect */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Reset shadow on active */
+}
+
+/* Specific button types */
+.button-secondary {
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  border: 1px solid var(--border-color); /* Use border-color */
+  box-shadow: none; /* Secondary buttons might be less prominent */
+}
+.button-secondary:hover {
+  background-color: #e0e8ef; /* Slightly darker secondary */
+  border-color: #a8b9c7; /* Darker border */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.button-danger {
+  background-color: var(--danger-color);
+  color: var(--text-light-color);
+}
+.button-danger:hover {
+  background-color: #c9302c; /* Darker red */
+}
+
+.button-success {
+  background-color: var(--success-color);
+  color: var(--text-light-color);
+}
+.button-success:hover {
+  background-color: #4cae4c; /* Darker green */
+}
+
+.button-info {
+  background-color: var(--info-color);
+  color: var(--text-light-color);
+}
+.button-info:hover {
+  background-color: #46b8da; /* Darker info blue */
+}
+
+/* Tailwind utility classes might override some of these, need to be mindful */
+/* The base 'button' selector might be too broad if Tailwind is used for all buttons.
+   Consider using a class like '.btn' for these defaults if conflicts arise. */
+button { /* Retain base font, but specific button classes .button, .btn-* are preferred for full styling */
   font-family: var(--font-headings), serif;
 }

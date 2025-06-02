@@ -7,7 +7,7 @@
       </div>
 </template>
 <script setup>
-import { ref, computed } from 'vue';
+// Props definition remains the same
 const props = defineProps({
     imagenes:{
         type:Array,
@@ -20,133 +20,72 @@ const props = defineProps({
 })
 </script>
 <style scoped>
-.index{
-  position: absolute;
-  max-height: 85vh;
-  scroll-behavior: smooth;
-  scrollbar-color: transparent;
-  overflow-y: scroll;
-}
-::-webkit-scrollbar {
-  width: 12px; 
-  background-color: #f0f0f0; 
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: #fff; 
-}
-
-::-webkit-scrollbar-button {
-  display: none; 
-}
-.fas{
-  font-size:1.2em;
-  margin-left: .5em;
-}
 .cont-fotos {
   display: flex;
   flex-wrap: wrap;
-  max-width: 100%;
+  gap: 10px; /* Replaces margin on individual items for better spacing */
+  padding: 10px; /* Padding around the container */
+  justify-content: center; /* Center images if they don't fill the row */
 }
-.image{
-  block-size: fit-content;
-  margin: .2em;
+
+.image {
   position: relative;
-  width: fit-content;
+  overflow: hidden; /* Ensures border-radius clips the ::before pseudo-element */
+  border-radius: 8px; /* Rounded corners for the image container */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 180px; /* Fixed height for uniformity */
+  width: auto; /* Adjust width automatically based on image aspect ratio or fixed width */
+  /* For a more masonry-like effect, width could be set and height auto,
+     but that requires more complex layout or JS. Fixed height is simpler for now. */
+  background-color: var(--secondary-color); /* Placeholder bg for images */
 }
+
+.image:hover {
+  transform: translateY(-2px) scale(1.02); /* Lift and slightly enlarge */
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
 .image::before {
-  content: "";
+  content: ""; /* Consider adding an icon here, like a magnifying glass */
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Ajusta el valor del canal alfa (0.5) para cambiar la intensidad del oscurecimiento */
-  opacity: 0; /* Inicialmente, el div de oscurecimiento es invisible */
-  transition: opacity 0.3s ease; /* Agrega una transición para suavizar el efecto */
+  background-color: rgba(0, 0, 0, 0.4); /* Slightly less dark overlay */
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Example for adding an icon using pseudo-elements (FontAwesome example)
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f00e"; /* fa-search icon
+  color: var(--text-light-color);
+  font-size: 2rem;
+  */
 }
 
 .image:hover::before {
   cursor: pointer;
-  opacity: 1; /* Al pasar el mouse sobre el contenedor, se muestra el div de oscurecimiento */
-}
-.image img{
-  padding: 0;
-  height: 175px;
-  transition: .5s;
-}
-.image-darken {
-  width: 100%;
-  height: auto;
-  display: block;
-  transition: filter 0.3s ease; /* Agrega una transición para suavizar el efecto */
+  opacity: 1;
 }
 
-/* Estilos para el modal */
-.modal {
-  display: flex;
-  position: fixed;
-  top: 0;
-  left: 0;
+.image img { /* Class .image-darken is on the img tag */
+  display: block; /* Remove extra space below image */
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.9);
-  z-index: 9999;
-  justify-content: center;
-  align-items: center;
+  object-fit: cover; /* Ensures image covers the area, might crop */
+  border-radius: 8px; /* Match parent's border-radius */
+  transition: transform 0.5s ease; /* Smoother/longer image zoom transition */
 }
 
-.modal img {
-  max-height: 80%;
-  width: 50%;
-  cursor: pointer;
+.image:hover img {
+  transform: scale(1.1); /* Zoom effect on image inside */
 }
 
-.modal .close {
-  color: #fff;
-  font-size: 24px;
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  cursor: pointer;
-}
-.cont-tags{
-  display: block;
-}
-.modal .span-tag{
-  background-color: white;
-  border-radius: 1em;
-  display: block;
-  color: black;
-  font-size: 1.2em;
-  margin: 2em 4em;
-  padding: 1em 2em;
-}
-/* Estilos para el botón de cierre */
-.close:hover {
-  color: #ccc;
-}
-.arrow {
-  border-radius: 50%;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 50px;
-  height: 50px;
-  background-color: rgba(255, 255, 255, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 24px;
-  color: #fff;
-}
-
-.left-arrow {
-  left: 10px;
-}
-
-.right-arrow {
-  right: 10px;
-}
+/* Removed all modal, scrollbar, .fas, .index styles as they are not used
+   or are handled by HomeView.vue or globally. */
 </style>
