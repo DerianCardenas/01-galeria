@@ -1,46 +1,34 @@
-<script setup>
-import { RouterView } from 'vue-router';
-import SidebarVue from './components/Sidebar.vue';
-
-</script>
-
 <template>
-    <RouterView :key="$route.fullPath"/>
+  <div class="flex flex-col h-screen bg-background">
+    <Topbar /> <!-- Use the Topbar component -->
+
+    <div class="flex flex-1 overflow-hidden">
+      <Sidebar /> <!-- Use the Sidebar component -->
+
+      <!-- Main Content Area -->
+      <main class="flex-1 p-6 overflow-y-auto bg-gallery-bg">
+        <RouterView :key="$route.fullPath" />
+      </main>
+    </div>
+  </div>
 </template>
 
+<script setup>
+import { RouterView } from 'vue-router';
+import Topbar from './components/Topbar.vue';
+import Sidebar from './components/Sidebar.vue'; // Import Sidebar
+</script>
+
 <style scoped>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  margin: 0;
-  padding: 0;
-  text-align: center;
+/* All previous scoped styles are removed as Tailwind CSS is used for layout and styling.
+   Any component-specific styles that cannot be achieved with Tailwind alone
+   can be added here if necessary, but the goal is to rely on utility classes.
+*/
+
+/* Example of a style that might be hard to do with Tailwind utilities directly,
+   or if you want to keep some very specific scoped style:
+.some-specific-class-in-app-vue {
+  font-variant-caps: all-small-caps;
 }
-.inicio{
-  display: flex;
-  justify-content:space-between;
-  height: 100vh;
-}
-.sidebar{
-  width: 25%;
-}
-.home{
-  width: 75%;
-}
-.topbar{
-  display: flex;
-}
-h1{
-  width: 50%;
-}
-.cont-buttons{
-  display: flex;
-  justify-content: space-around;
-  width: 50%;
-}
-/* Removed general button styling from App.vue scoped styles.
-   Global styles from style.css will apply to standard buttons.
-   If App.vue has specific buttons needing unique styles,
-   they should use specific classes. */
+*/
 </style>

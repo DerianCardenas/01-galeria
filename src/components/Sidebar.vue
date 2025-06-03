@@ -1,51 +1,86 @@
-<script setup>
-import {useRouter} from "vue-router"
-const router = useRouter();
-</script>
 <template>
-    <nav>
-        <div class="cont-img">
-            <img class="logo" src="../assets/img/galeria.png" alt="" srcset="">
-            <h3>Galería Web</h3>
-        </div>
-        <div class="items">
-            <li class="" @click="router.push('/inicio')" >Mis fotos</li>
-            <li class="" @click="router.push('/buscar')">Buscar</li>
-            <li class="" @click="router.push('/subir')">Subir</li>
-        </div>
+  <aside class="w-64 bg-neutral-100 text-neutral-800 p-6 shadow-md space-y-4">
+    <h2 class="text-xl font-semibold text-textPrimary border-b border-neutral-300 pb-3">Menu</h2>
+
+    <nav class="space-y-2">
+      <router-link
+        v-for="item in navigationItems"
+        :key="item.name"
+        :to="item.path"
+        class="flex items-center py-2.5 px-4 rounded-lg transition-colors duration-200 ease-in-out"
+        :class="isActive(item.path) ? 'bg-primary text-white shadow-sm' : 'hover:bg-neutral-200 text-textSecondary'"
+      >
+        <component :is="item.icon" class="h-5 w-5 mr-3" />
+        <span>{{ item.name }}</span>
+      </router-link>
     </nav>
+
+    <div class="pt-4 border-t border-neutral-300 space-y-2">
+      <h3 class="px-4 text-sm font-semibold text-neutral-500 uppercase tracking-wider">
+        Library
+      </h3>
+      <router-link
+        v-for="item in libraryItems"
+        :key="item.name"
+        :to="item.path"
+        class="flex items-center py-2.5 px-4 rounded-lg transition-colors duration-200 ease-in-out"
+        :class="isActive(item.path) ? 'bg-primary text-white shadow-sm' : 'hover:bg-neutral-200 text-textSecondary'"
+      >
+        <component :is="item.icon" class="h-5 w-5 mr-3" />
+        <span>{{ item.name }}</span>
+      </router-link>
+    </div>
+
+    <!-- Placeholder for storage indicator or other widgets -->
+    <div class="pt-4 mt-auto">
+      <div class="bg-neutral-200 p-3 rounded-lg text-center">
+        <p class="text-xs text-neutral-600">Storage Usage (Placeholder)</p>
+        <div class="w-full bg-neutral-300 rounded-full h-2.5 mt-1">
+          <div class="bg-secondary h-2.5 rounded-full" style="width: 45%"></div>
+        </div>
+      </div>
+    </div>
+  </aside>
 </template>
+
+<script setup>
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
+import {
+  HomeIcon, PhotographIcon, UploadIcon, StarIcon, TrashIcon, CogIcon, ShareIcon
+} from '@heroicons/vue/24/outline'; // Using Heroicons (outline style)
+
+const route = useRoute();
+
+const navigationItems = [
+  { name: 'Home', path: '/', icon: HomeIcon },
+  { name: 'My Photos', path: '/photos', icon: PhotographIcon }, // Assuming '/photos' is the main gallery view
+  { name: 'Upload', path: '/upload', icon: UploadIcon },
+];
+
+const libraryItems = [
+  { name: 'Favorites', path: '/favorites', icon: StarIcon },
+  { name: 'Shared', path: '/shared', icon: ShareIcon },
+  { name: 'Trash', path: '/trash', icon: TrashIcon },
+  { name: 'Settings', path: '/settings', icon: CogIcon },
+];
+
+const isActive = (path) => {
+  // For "/", check exact match. For others, startsWith is usually fine for parent routes.
+  // However, for /photos, if / is also a gallery, this might need refinement.
+  // Let's refine for /: exact match. For /photos: startsWith /photos but not something like /photos-archive
+  if (path === '/') {
+    return route.path === '/';
+  }
+  // A more specific check for /photos if it's a distinct section
+  if (path === '/photos') {
+     return route.path === '/photos' || route.path.startsWith('/photos/');
+  }
+  return route.path.startsWith(path) && route.path !== '/'; // Avoid highlighting everything when on "/"
+};
+</script>
+
 <style scoped>
-nav{
-    height: 100vh;
-}
-.cont-img{
-    display: block;
-    padding: 3.5em 0;
-    margin: 0 auto;
-    width: 50%;
-}
-.logo{
-    border-radius: 1.5em;
-    width: 100%;
-}
-.items{
-    display: block;
-    margin: 0 auto;
-    width: 50%;
-}
-li{
-    border-radius: 1em;
-    text-align: left;
-    list-style: none;
-    font-size: 1.1em;
-    margin-top:1em;
-    padding: .5em 1em;
-    transition: .25s all ease-in;
-}
-li:hover{
-    background-color: rgb(96,148,254);
-    cursor: pointer;
-    color: white;
-}
+/* Scoped styles can be added if specific tweaks are needed beyond Tailwind utilities */
+/* For example, if a very specific transition or element style is hard to achieve with utilities alone. */
 </style>

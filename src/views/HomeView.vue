@@ -1,56 +1,95 @@
-
 <template>
-  <Transition>
-    <div class="animate">
-      <h3 v-if="imagenes.length > 0">MIS FOTOS</h3>
-      <div v-if="imagenes.length > 0" class="index">
-        <div>
-          <ContFotos :showImageFullScreen="showImageFullScreen" :imagenes="imagenes"/>
-          <!-- Modal para mostrar la imagen en pantalla completa -->
-          <div class="modal" v-if="showModal">
-            <span class="close" @click="hideImageFullScreen">&times;</span>
+  <div class="p-0"> <!-- Was .animate. Tailwind animations can be added later if needed. -->
+    <h3 v-if="imagenes.length > 0" class="text-2xl font-semibold text-textPrimary text-center my-6">
+      My Photos
+    </h3>
     
-            <div class="arrow left-arrow" @click="showPreviousImage">
-              <i class="fa-solid fa-arrow-left"></i>
+    <div v-if="imagenes.length > 0" class="relative"> <!-- Was .index. Max height and scroll handled by main layout -->
+      <ContFotos :imagenes="imagenes" :showImageFullScreen="showImageFullScreen" />
+    </div>
+    <div v-else class="text-center py-20">
+      <h2 class="text-2xl font-semibold text-textSecondary">No images yet!</h2>
+      <router-link
+        to="/upload"
+        class="mt-6 inline-block bg-primary text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-opacity-90 transition-colors"
+      >
+        Upload Your First Photo
+      </router-link>
+    </div>
+
+    <!-- Modal for full-screen image view -->
+    <Transition
+      enter-active-class="transition-opacity duration-300 ease-out"
+      enter-from-class="opacity-0"
+      enter-to-class="opacity-100"
+      leave-active-class="transition-opacity duration-200 ease-in"
+      leave-from-class="opacity-100"
+      leave-to-class="opacity-0"
+    >
+      <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-4">
+        <!-- Close Button -->
+        <button @click="hideImageFullScreen" class="absolute top-4 right-4 text-white hover:text-neutral-300 transition-colors z-50">
+          <svg class="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
+        <!-- Previous Image Button -->
+        <button @click="showPreviousImage" class="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-black bg-opacity-30 hover:bg-opacity-50 text-white rounded-full transition-colors focus:outline-none">
+          <svg class="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+
+        <!-- Image and Tags Container -->
+        <div class="flex flex-col md:flex-row items-center justify-center max-w-screen-xl w-full max-h-full">
+          <img :src="currentImage" alt="Full screen image" class="max-w-[70vw] max-h-[80vh] object-contain rounded-md shadow-xl"/>
+
+          <!-- Tags Section -->
+          <div class="md:ml-6 mt-4 md:mt-0 p-4 bg-neutral-800 bg-opacity-70 rounded-lg shadow-xl text-white max-w-xs w-full overflow-y-auto max-h-[80vh]">
+            <h4 class="text-lg font-semibold mb-3 border-b border-neutral-600 pb-2">Image Tags</h4>
+
+            <div v-if="!addTags" class="mb-3 space-y-2 min-h-[50px]"> <!-- min-h for consistent size -->
+              <div v-if="imageTags.length === 0" class="text-sm text-neutral-300 italic">No tags yet.</div>
+              <span v-for="tag in imageTags" :key="tag" class="inline-block bg-secondary text-white text-xs font-semibold mr-2 mb-2 px-2.5 py-1 rounded-full">
+                {{ tag }}
+              </span>
             </div>
-            <img :src="currentImage" alt="">
-            <div class="cont-tags">
-              <span @click="editTags" class="edit-tags span-tag">
-                EDITAR ETIQUETAS
-                <i class="fa-solid fa-edit" ></i>
-              </span>
-              
-              <div v-if="!addTags">
-                <span class="span-tag" v-for="tags in imageTags">
-                  {{ tags }}
-                  <i class="fas fa-tag"></i> 
-                </span>
-              </div>
-              <div v-else>
-                <span class="span-tag" v-for="(tag, i) in newTags">
-                  <input type="text" v-model="newTags[i]">
-                  <i class="fas fa-tag"></i> 
-                </span>
-              </div>
-              <span v-if="addTags" @click="saveTags" class="cont-save span-tag">
-                GUARDAR ETIQUETAS
-                <i class="fas fa-save"></i> 
-              </span>
-              <span v-else @click="deletePhoto" class="cont-delete span-tag">
-                ELIMINAR FOTO
-                <i class="fas fa-trash"></i> 
-              </span>
+            <div v-else class="space-y-2 mb-3">
+              <input
+                v-for="(tagInput, i) in newTags"
+                :key="i"
+                type="text"
+                v-model="newTags[i]"
+                placeholder="Enter tag"
+                class="w-full p-2 bg-neutral-700 border border-neutral-600 rounded-md text-sm focus:ring-primary focus:border-primary"
+              />
+              <!-- Add button to allow adding more than 3 tag inputs if desired -->
             </div>
-            <div class="arrow right-arrow" @click="showNextImage">
-              <i class="fa-solid fa-arrow-right"></i></div>
+
+            <div class="space-y-3 pt-3 border-t border-neutral-600">
+              <button v-if="!addTags" @click="editTags" class="w-full bg-info hover:bg-opacity-90 text-white font-medium py-2 px-4 rounded-md text-sm transition-colors">
+                Edit Tags
+              </button>
+              <button v-if="addTags" @click="saveTags" class="w-full bg-success hover:bg-opacity-90 text-white font-medium py-2 px-4 rounded-md text-sm transition-colors">
+                Save Tags
+              </button>
+              <button @click="deletePhoto" class="w-full bg-danger hover:bg-opacity-90 text-white font-medium py-2 px-4 rounded-md text-sm transition-colors">
+                Delete Photo
+              </button>
+            </div>
           </div>
         </div>
+
+        <!-- Next Image Button -->
+        <button @click="showNextImage" class="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-black bg-opacity-30 hover:bg-opacity-50 text-white rounded-full transition-colors focus:outline-none">
+          <svg class="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
       </div>
-      <div v-else>
-        <h2>AÚN NO TIENES IMAGENES!</h2>
-      </div>
-    </div>
-  </Transition>
+    </Transition>
+  </div>
 </template>
 
 <script setup>
@@ -73,7 +112,7 @@ const {
   imgDetails,
   imageTags,
   addTags,
-  newTags,
+  newTags, // This is expected to be an array by usePhotoGallery for tag editing inputs
   showNextImage,
   showPreviousImage,
   showImageFullScreen,
@@ -84,232 +123,9 @@ const {
 } = usePhotoGallery(initialImagenes, initialImgDetails, router);
 
 </script>
+
 <style scoped>
-.animate{
-  animation-duration: 0.75s;
-  animation-duration: .5s;
-  animation-delay: 0.5s;
-  animation-name: animate-fade;
-  animation-timing-function: cubic-bezier(.26,.53,.74,1.48);
-  animation-fill-mode: backwards;
-}
-.animate.fade {
-  animation-name: animate-fade;
-  animation-timing-function: ease;
-}
-@keyframes animate-fade {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-}
-.swal{
-  z-index:3 ;
-}
-h3{
-  text-align: center;
-  width: 100%;
-}
-.index{
-
-  position: absolute;
-  max-height: 85vh;
-  scroll-behavior: smooth;
-  overflow-y: auto; /* Changed from scroll to auto for better behavior */
-  max-width: 100%;
-  padding-right: 5px; /* Add some padding so scrollbar doesn't overlay content */
-}
-/* Modern Scrollbar Styles */
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-::-webkit-scrollbar-track {
-  background: var(--secondary-color);
-  border-radius: 5px;
-}
-::-webkit-scrollbar-thumb {
-  background-color: var(--primary-color);
-  border-radius: 5px;
-  border: 2px solid var(--secondary-color); /* Creates padding around thumb */
-}
-::-webkit-scrollbar-thumb:hover {
-  background-color: #4a7bdc; /* Darker primary */
-}
-::-webkit-scrollbar-button {
-  display: none; 
-}
-.fas{
-  font-size:1.2em;
-  margin-left: .5em;
-}
-.cont-fotos {
-  display: flex;
-  flex-wrap: wrap;
-  max-width: 100%;
-}
-.image{
-  block-size: fit-content;
-  margin: .2em;
-  position: relative;
-  width: fit-content;
-}
-.image::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Ajusta el valor del canal alfa (0.5) para cambiar la intensidad del oscurecimiento */
-  opacity: 0; /* Inicialmente, el div de oscurecimiento es invisible */
-  transition: opacity 0.3s ease; /* Agrega una transición para suavizar el efecto */
-}
-
-.image:hover::before {
-  cursor: pointer;
-  opacity: 1; /* Al pasar el mouse sobre el contenedor, se muestra el div de oscurecimiento */
-}
-.image img{
-  padding: 0;
-  height: 175px;
-  transition: .5s;
-}
-.image-darken {
-  width: 100%;
-  height: auto;
-  display: block;
-  transition: filter 0.3s ease; /* Agrega una transición para suavizar el efecto */
-}
-.edit-icon{
-  margin-top:0;
-}
-/* Estilos para el modal */
-.modal {
-  display: flex;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.9);
-  z-index: 2;
-  justify-content: center;
-  align-items: center;
-}
-
-.modal img {
-  max-height: 80%;
-  max-width: 50%;
-  cursor: default; /* Default cursor, image itself is not interactive beyond viewing */
-  border-radius: 4px; /* Subtle rounding */
-}
-
-.modal .close {
-  color: var(--text-light-color);
-  font-size: 30px; /* Slightly larger for easier clicking */
-  position: absolute;
-  top: 15px; /* Adjust position */
-  right: 25px;
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-.modal .close:hover {
-  color: var(--border-color); /* Lighter hover for close */
-}
-
-.cont-tags{
-  display: flex; /* Use flex for better alignment of children */
-  flex-direction: column;
-  align-items: center; /* Center tags and action buttons */
-  padding: 10px;
-  margin-left: 20px; /* Space from the image */
-  max-width: 250px; /* Max width for tag container */
-  overflow-y: auto; /* Scroll if many tags */
-}
-
-/* Base style for all tags/action items in the modal */
-.modal .span-tag {
-  background-color: var(--secondary-color);
-  color: var(--text-color);
-  border: 1px solid var(--border-color);
-  border-radius: 8px; /* Consistent rounded corners */
-  display: block; /* Or inline-block if they should flow */
-  font-size: 0.9rem; /* Adjusted font size */
-  margin: 0.5em 0; /* Vertical margin, horizontal handled by container */
-  padding: 0.8em 1.2em;
-  width: 100%; /* Make them full width of their container */
-  box-sizing: border-box; /* Include padding and border in the element's total width and height */
-  text-align: center;
-  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
-}
-
-/* Input fields within tags */
-.modal .span-tag input[type="text"] {
-  background-color: var(--text-light-color);
-  color: var(--text-color);
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  padding: 8px 10px;
-  width: calc(100% - 20px); /* Adjust width considering padding */
-  margin-top: 5px;
-  font-family: var(--font-text);
-}
-
-.arrow {
-  border-radius: 50%;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 45px; /* Slightly smaller */
-  height: 45px;
-  background-color: rgba(0, 0, 0, 0.3); /* Darker, less obtrusive */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 20px; /* Adjusted icon size */
-  color: var(--text-light-color);
-  transition: background-color 0.3s ease;
-}
-.arrow:hover {
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.left-arrow {
-  left: 20px; /* More spacing from edge */
-}
-
-.right-arrow {
-  right: 20px; /* More spacing from edge */
-}
-
-/* Specific hover effects for action tags, inherits .span-tag base */
-.cont-delete.span-tag:hover { /* Make selector more specific */
-  background-color: var(--danger-color);
-  color: var(--text-light-color);
-  border-color: var(--danger-color);
-  transform: scale(1.03); /* Slight scale effect */
-}
-.cont-save.span-tag:hover {
-  background-color: var(--success-color);
-  color: var(--text-light-color);
-  border-color: var(--success-color);
-  transform: scale(1.03);
-}
-.edit-tags.span-tag:hover {
-  background-color: var(--info-color);
-  color: var(--text-light-color);
-  border-color: var(--info-color);
-  transform: scale(1.03);
-}
-
-/* Ensure .span-tag for non-interactive tag display also looks good */
-.span-tag:not(.cont-delete):not(.cont-save):not(.edit-tags) {
-  /* Styles for plain tags if different from action tags base */
-  background-color: var(--secondary-color);
-  color: var(--text-color);
-  cursor: default;
-}
-
-/* Remove redundant .span-tag styling at the end if covered by .modal .span-tag */
-/* The last .span-tag rule was too generic. Handled above. */
+/* All old scoped styles are removed. Tailwind utility classes are used directly in the template. */
+/* Any component-specific style that is extremely difficult or verbose to do with Tailwind
+   could be an exception, but the goal is to minimize or eliminate scoped CSS here. */
 </style>

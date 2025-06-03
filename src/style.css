@@ -1,141 +1,95 @@
 
-@import "tailwindcss";
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* Keeping existing font variables and base text rendering setup.
+   Color variables and conflicting layout/typographic defaults are removed
+   to allow Tailwind to take precedence.
+*/
 :root {
-  display: block;
-  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  /* display: block; -- Handled by Tailwind's preflight/normalize */
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; /* Base, can be overridden by body/Tailwind */
   font-weight: 400;
   font-synthesis: none;
-  line-height: 1.5;
+  line-height: 1.5; /* Base line-height, Tailwind utilities can override */
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 
-  /* Font Variables from existing file */
+  /* Existing Font Variables */
   --font-text: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-headings: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
 
-  /* New Color Palette */
-  --primary-color: #6094FE;
-  --secondary-color: #F0F4F8; /* Light gray for backgrounds */
-  --accent-color: #FFD700;   /* Gold for highlights */
-  --text-color: #333333;     /* Dark gray for readability */
-  --text-light-color: #FFFFFF; /* White for text on dark backgrounds */
-  --success-color: #5CB85C; /* Green for success */
-  --danger-color: #D9534F;  /* Red for danger/delete */
-  --info-color: #5BC0DE;    /* Blue for info */
-  --border-color: #DDDDDD;  /* For borders and dividers */
+  /* Old color palette (e.g., --primary-color, --text-color) removed.
+     These will be managed via tailwind.config.js or Tailwind's default palette.
+  */
+  /* --primary-color: #6094FE; */
+  /* --secondary-color: #F0F4F8; */
+  /* --accent-color: #FFD700; */
+  /* --text-color: #333333; */
+  /* --text-light-color: #FFFFFF; */
+  /* --success-color: #5CB85C; */
+  /* --danger-color: #D9534F; */
+  /* --info-color: #5BC0DE; */
+  /* --border-color: #DDDDDD; */
 }
 
 #app {
-  text-align: center;
+  /* text-align: center; -- Use Tailwind's text-center utility class instead */
   width: 100%;
+  /* margin: 0; -- Handled by Tailwind's preflight */
 }
+
+/* Custom font classes can remain if needed, or map these fonts
+   into tailwind.config.js theme.fontFamily */
 .font-gotham {
   font-family: 'Gotham', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .font-montserrat {
   font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-weight: 700; /* Bold para títulos */
+  font-weight: 700; /* Corresponds to Tailwind's font-bold or similar */
 }
 
 body {
-  font-family: var(--font-text), serif;
-  font-weight: 400; /* Regular para texto normal */
-  background-color: var(--secondary-color);
-  color: var(--text-color);
-  margin: 0; /* Reset default margin */
+  font-family: var(--font-text), serif; /* Default body font */
+  /* font-weight: 400; -- Set by Tailwind's base or utilities like font-normal */
+  /* background-color: var(--secondary-color); -- Use Tailwind bg utilities, e.g., class="bg-gray-100" */
+  /* color: var(--text-color); -- Use Tailwind text utilities, e.g., class="text-gray-900" */
 }
 
 h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headings), serif; /* Default heading font */
+  /* font-weight: 600; -- Use Tailwind utilities like font-semibold */
+  /* color: var(--text-color); -- Use Tailwind text utilities */
+  /* Tailwind's base styles will provide sensible defaults for headings,
+     which can then be overridden with utility classes. */
+}
+
+/* Specific font weight utility classes like .title-bold, .text-medium, .text-light
+   can be replaced by Tailwind's font utilities e.g. font-bold, font-medium, font-light */
+/* .title-bold {
   font-family: var(--font-headings), serif;
-  font-weight: 600; /* SemiBold para títulos */
-  color: var(--text-color);
-}
-
-/* Estilos específicos para diferentes pesos */
-.title-bold {
-  font-family: var(--font-headings), serif;
-  font-weight: 700; /* Bold para énfasis */
-}
-
-.text-medium {
-  font-weight: 500; /* Medium para destacar texto */
-}
-
-.text-light {
-  font-weight: 300; /* Light para texto secundario */
-}
-
-/* Default Button Styling */
-button, .button { /* Added .button class for non-button elements styled as buttons */
-  font-family: var(--font-headings), serif;
-  background-color: var(--primary-color);
-  color: var(--text-light-color);
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
+  font-weight: 700;
+} */
+/* .text-medium {
   font-weight: 500;
-  text-decoration: none; /* For <a> tags styled as buttons */
-  display: inline-block; /* For <a> tags */
-  transition: background-color 0.3s ease-out, transform 0.1s ease, box-shadow 0.3s ease-out;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow for depth */
-}
+} */
+/* .text-light {
+  font-weight: 300;
+} */
 
-button:hover, .button:hover {
-  background-color: #4a7bdc; /* Darker shade of primary-color */
-  transform: translateY(-1px); /* Subtle lift effect */
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Enhanced shadow on hover */
-}
+/* Global button styles are removed.
+   Buttons will be styled using Tailwind utility classes or @apply directives for components. */
+/* button, .button { ... } */
+/* button:hover, .button:hover { ... } */
+/* .button-secondary { ... } */
+/* .button-danger { ... } */
 
-button:active, .button:active {
-  transform: translateY(0px); /* Click effect */
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Reset shadow on active */
-}
-
-/* Specific button types */
-.button-secondary {
-  background-color: var(--secondary-color);
-  color: var(--primary-color);
-  border: 1px solid var(--border-color); /* Use border-color */
-  box-shadow: none; /* Secondary buttons might be less prominent */
-}
-.button-secondary:hover {
-  background-color: #e0e8ef; /* Slightly darker secondary */
-  border-color: #a8b9c7; /* Darker border */
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-
-.button-danger {
-  background-color: var(--danger-color);
-  color: var(--text-light-color);
-}
-.button-danger:hover {
-  background-color: #c9302c; /* Darker red */
-}
-
-.button-success {
-  background-color: var(--success-color);
-  color: var(--text-light-color);
-}
-.button-success:hover {
-  background-color: #4cae4c; /* Darker green */
-}
-
-.button-info {
-  background-color: var(--info-color);
-  color: var(--text-light-color);
-}
-.button-info:hover {
-  background-color: #46b8da; /* Darker info blue */
-}
-
-/* Tailwind utility classes might override some of these, need to be mindful */
-/* The base 'button' selector might be too broad if Tailwind is used for all buttons.
-   Consider using a class like '.btn' for these defaults if conflicts arise. */
-button { /* Retain base font, but specific button classes .button, .btn-* are preferred for full styling */
-  font-family: var(--font-headings), serif;
-}
+/* Scrollbar styles removed. Can be re-added as custom utility or component if needed,
+   or via a Tailwind plugin. */
+/* ::-webkit-scrollbar { ... } */
+/* ::-webkit-scrollbar-thumb { ... } */
+/* ::-webkit-scrollbar-button { ... } */

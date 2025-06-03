@@ -1,91 +1,88 @@
 <template>
+  <div class="cont-fotos p-2 sm:p-4">
+    <div
+      v-if="!imagenes || imagenes.length === 0"
+      class="w-full text-center py-10"
+    >
+      <p class="text-xl text-textSecondary">No photos to display.</p>
+      <!-- Optional: Link to upload page -->
+      <router-link
+        to="/upload"
+        class="mt-4 inline-block bg-primary text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-opacity-90 transition-colors"
+      >
+        Upload Photos
+      </router-link>
+    </div>
 
-    <div class="cont-fotos">
-        <div class="image" v-for="(image, index) in imagenes" @click="showImageFullScreen(index)">
-          <img :src="image" alt="" class="image-darken" >
+    <div v-else class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-4">
+      <div
+        v-for="(image, index) in imagenes"
+        :key="image.id || index"
+        @click="showImageFullScreen(index)"
+        class="image-container group relative aspect-square overflow-hidden rounded-lg shadow-md cursor-pointer transition-all duration-300 ease-in-out hover:shadow-xl hover:scale-105"
+      >
+        <img
+          :src="image.src || image"
+          :alt="image.alt || 'Gallery image ' + (index + 1)"
+          class="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
+          @load="onImageLoad"
+          loading="lazy"
+        />
+        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-300 ease-in-out flex items-center justify-center">
+          <!-- Optional: Show an icon or info on hover -->
+          <svg class="h-8 w-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+          </svg>
         </div>
       </div>
+    </div>
+  </div>
 </template>
+
 <script setup>
-// Props definition remains the same
+import { defineProps, defineEmits } from 'vue'; // defineEmits is imported but not used in the provided script
+
 const props = defineProps({
-    imagenes:{
-        type:Array,
-        required:true,
-    },
-    showImageFullScreen:{
-        type:Function,
-        required:true,
-    }
-})
+  imagenes: {
+    type: Array,
+    required: true,
+    default: () => [] // Ensure it defaults to an empty array if not provided
+  },
+  showImageFullScreen: { // Explicitly define the prop for clarity and type checking
+    type: Function,
+    required: true
+  }
+});
+
+// Define emits if ContFotos needs to communicate back other than through props (not strictly needed for this change)
+// const emit = defineEmits(['image-clicked']);
+
+const showImageFullScreen = (index) => {
+  // Call the function passed via props
+  if (props.showImageFullScreen) { // Check if prop exists (it's required, but good practice)
+    props.showImageFullScreen(index);
+  } else {
+    // This case should ideally not be reached if parent provides the required prop.
+    console.warn("showImageFullScreen function not provided to ContFotos component via props.");
+  }
+};
+
+const onImageLoad = (event) => {
+    // Placeholder for any logic needed on image load, e.g., adjusting layout if using JS masonry.
+    // For pure CSS grid/flex, this might not be strictly necessary for layout but can be useful for shimmer effects etc.
+    event.target.style.opacity = 1; // Example: fade in image if it started with opacity 0
+};
+
+// Ensure that the `imagenes` prop expects objects with `src` and `alt` or just strings.
+// The template uses `image.src || image` to handle both cases.
+// It's better if `HomeView` (or `usePhotoGallery`) standardizes the image objects.
+// For now, this provides some flexibility.
 </script>
+
 <style scoped>
-.cont-fotos {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px; /* Replaces margin on individual items for better spacing */
-  padding: 10px; /* Padding around the container */
-  justify-content: center; /* Center images if they don't fill the row */
+.image-container img {
+  opacity: 0; /* Start with opacity 0 if you want a fade-in effect on load */
+  transition: opacity 0.5s ease-in-out, transform 0.3s ease-in-out;
 }
-
-.image {
-  position: relative;
-  overflow: hidden; /* Ensures border-radius clips the ::before pseudo-element */
-  border-radius: 8px; /* Rounded corners for the image container */
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Subtle shadow for depth */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  height: 180px; /* Fixed height for uniformity */
-  width: auto; /* Adjust width automatically based on image aspect ratio or fixed width */
-  /* For a more masonry-like effect, width could be set and height auto,
-     but that requires more complex layout or JS. Fixed height is simpler for now. */
-  background-color: var(--secondary-color); /* Placeholder bg for images */
-}
-
-.image:hover {
-  transform: translateY(-2px) scale(1.02); /* Lift and slightly enlarge */
-  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-}
-
-.image::before {
-  content: ""; /* Consider adding an icon here, like a magnifying glass */
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.4); /* Slightly less dark overlay */
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* Example for adding an icon using pseudo-elements (FontAwesome example)
-  font-family: "Font Awesome 5 Free";
-  font-weight: 900;
-  content: "\f00e"; /* fa-search icon
-  color: var(--text-light-color);
-  font-size: 2rem;
-  */
-}
-
-.image:hover::before {
-  cursor: pointer;
-  opacity: 1;
-}
-
-.image img { /* Class .image-darken is on the img tag */
-  display: block; /* Remove extra space below image */
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Ensures image covers the area, might crop */
-  border-radius: 8px; /* Match parent's border-radius */
-  transition: transform 0.5s ease; /* Smoother/longer image zoom transition */
-}
-
-.image:hover img {
-  transform: scale(1.1); /* Zoom effect on image inside */
-}
-
-/* Removed all modal, scrollbar, .fas, .index styles as they are not used
-   or are handled by HomeView.vue or globally. */
+/* Additional styles for loading placeholders or specific aspect ratio handling if needed beyond Tailwind. */
 </style>
