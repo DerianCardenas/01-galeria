@@ -46,9 +46,16 @@
 <script setup>
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
+// Forma correcta de importar (versión 2.x)
 import {
-  HomeIcon, PhotographIcon, UploadIcon, StarIcon, TrashIcon, CogIcon, ShareIcon
-} from '@heroicons/vue/24/outline'; // Using Heroicons (outline style)
+  HomeIcon,
+  PhotographIcon,
+  UploadIcon,
+  StarIcon,
+  TrashIcon,
+  CogIcon,
+  ShareIcon
+} from '@heroicons/vue/outline'; // Elimina el "24/" de la ruta
 
 const route = useRoute();
 
