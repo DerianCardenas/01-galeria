@@ -52,9 +52,9 @@
               leave-to-class="transform opacity-0 scale-95"
             >
               <div v-if="isProfileDropdownOpen" class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-20">
-                <router-link to="/profile" class="block px-4 py-2 text-sm text-textPrimary hover:bg-neutral-100">Your Profile</router-link>
-                <router-link to="/settings" class="block px-4 py-2 text-sm text-textPrimary hover:bg-neutral-100">Settings</router-link>
-                <button @click="logout" class="w-full text-left block px-4 py-2 text-sm text-textPrimary hover:bg-neutral-100">
+                <router-link to="/profile" class="block px-4 py-2 text-sm text-textPrimary hover:bg-neutral-100 hover:text-textPrimary focus:outline-none focus:bg-neutral-100 focus:text-textPrimary">Your Profile</router-link>
+                <router-link to="/settings" class="block px-4 py-2 text-sm text-textPrimary hover:bg-neutral-100 hover:text-textPrimary focus:outline-none focus:bg-neutral-100 focus:text-textPrimary">Settings</router-link>
+                <button @click="logout" class="w-full text-left block px-4 py-2 text-sm text-textPrimary hover:bg-neutral-100 hover:text-textPrimary focus:outline-none focus:bg-neutral-100 focus:text-textPrimary">
                   Sign out
                 </button>
               </div>

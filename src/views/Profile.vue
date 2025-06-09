@@ -16,14 +16,14 @@
           <button
             v-if="!editUser"
             @click="editUser = true"
-            class="mt-4 bg-primary text-white font-semibold py-2 px-6 rounded-lg shadow hover:bg-opacity-90 transition-colors"
+            class="mt-4 text-primary border border-primary hover:bg-primary hover:text-white font-semibold py-2 px-6 rounded-lg shadow-sm transition-colors"
           >
             Edit Profile
           </button>
           <button
             v-if="editUser"
             @click="editUser = false; resetEditFields();"
-            class="mt-4 bg-neutral-500 hover:bg-neutral-600 text-white font-semibold py-2 px-6 rounded-lg shadow transition-colors"
+            class="mt-4 text-neutral-700 border border-neutral-700 hover:bg-neutral-700 hover:text-white font-semibold py-2 px-6 rounded-lg shadow-sm transition-colors"
           >
             Cancel Edit
           </button>
