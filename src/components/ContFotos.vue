@@ -19,7 +19,7 @@
         v-for="(image, index) in imagenes"
         :key="image.id || index"
         @click="showImageFullScreen(index)"
-        class="image-container group relative aspect-square overflow-hidden rounded-lg shadow-md cursor-pointer transition-all duration-300 ease-in-out hover:shadow-xl hover:scale-105"
+          class="image-container group relative aspect-square overflow-hidden rounded-lg shadow-md cursor-pointer transition-all duration-300 ease-in-out hover:shadow-xl hover:scale-105 bg-neutral-200"
       >
         <img
           :src="image.src || image"
@@ -68,9 +68,8 @@ const showImageFullScreen = (index) => {
 };
 
 const onImageLoad = (event) => {
-    // Placeholder for any logic needed on image load, e.g., adjusting layout if using JS masonry.
-    // For pure CSS grid/flex, this might not be strictly necessary for layout but can be useful for shimmer effects etc.
-    event.target.style.opacity = 1; // Example: fade in image if it started with opacity 0
+    // Placeholder for any logic needed on image load.
+    // event.target.style.opacity = 1; // This line is removed as initial opacity is no longer 0.
 };
 
 // Ensure that the `imagenes` prop expects objects with `src` and `alt` or just strings.
@@ -81,8 +80,9 @@ const onImageLoad = (event) => {
 
 <style scoped>
 .image-container img {
-  opacity: 0; /* Start with opacity 0 if you want a fade-in effect on load */
-  transition: opacity 0.5s ease-in-out, transform 0.3s ease-in-out;
+  /* opacity: 0; */ /* Removed for troubleshooting image visibility */
+  /* transition: opacity 0.5s ease-in-out, transform 0.3s ease-in-out; */ /* Transition for opacity also removed */
+  transition: transform 0.3s ease-in-out; /* Keep only transform transition if needed */
 }
 /* Additional styles for loading placeholders or specific aspect ratio handling if needed beyond Tailwind. */
 </style>

@@ -43,7 +43,12 @@
 
         <!-- Image and Tags Container -->
         <div class="flex flex-col md:flex-row items-center justify-center max-w-screen-xl w-full max-h-full">
-          <img :src="currentImage" alt="Full screen image" class="max-w-[70vw] max-h-[80vh] object-contain rounded-md shadow-xl"/>
+          <img
+            :key="currentImage"
+            :src="currentImage"
+            alt="Full screen image"
+            class="max-w-[70vw] max-h-[80vh] object-contain rounded-md shadow-xl"
+          />
 
           <!-- Tags Section -->
           <div class="md:ml-6 mt-4 md:mt-0 p-4 bg-neutral-800 bg-opacity-70 rounded-lg shadow-xl text-white max-w-xs w-full overflow-y-auto max-h-[80vh]">

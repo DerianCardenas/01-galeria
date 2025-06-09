@@ -8,7 +8,7 @@
         :key="item.name"
         :to="item.path"
         class="flex items-center py-2.5 px-4 rounded-lg transition-colors duration-200 ease-in-out"
-        :class="isActive(item.path) ? 'bg-primary text-white shadow-sm' : 'hover:bg-neutral-200 text-textSecondary'"
+        :class="isActive(item.path) ? 'bg-primary text-white shadow-sm' : 'text-textSecondary hover:bg-neutral-200 hover:text-textPrimary'"
       >
         <component :is="item.icon" class="h-5 w-5 mr-3" />
         <span>{{ item.name }}</span>
@@ -24,7 +24,7 @@
         :key="item.name"
         :to="item.path"
         class="flex items-center py-2.5 px-4 rounded-lg transition-colors duration-200 ease-in-out"
-        :class="isActive(item.path) ? 'bg-primary text-white shadow-sm' : 'hover:bg-neutral-200 text-textSecondary'"
+        :class="isActive(item.path) ? 'bg-primary text-white shadow-sm' : 'text-textSecondary hover:bg-neutral-200 hover:text-textPrimary'"
       >
         <component :is="item.icon" class="h-5 w-5 mr-3" />
         <span>{{ item.name }}</span>
