@@ -43,10 +43,36 @@ export function usePhotoGallery(initialImagenes, initialImgDetails, router) {
     _updateCurrentImageDetails();
   };
 
-  const showImageFullScreen = (image, index) => {
+  const showImageFullScreen = (index) => { // Removed unused 'image' parameter
+    console.log(`[usePhotoGallery] Attempting to show image at index: ${index}`);
+    if (!imagenes.value || index < 0 || index >= imagenes.value.length) {
+      console.error(`[usePhotoGallery] Invalid index (${index}) or images array is empty/undefined (length: ${imagenes.value?.length}).`);
+      return;
+    }
+
+    const newImageSrc = imagenes.value[index]?.src || imagenes.value[index];
+    console.log(`[usePhotoGallery] New image src for modal: ${newImageSrc}`);
+
     currentImageIndex.value = index;
-    _updateCurrentImageDetails(); // This will set currentImage and imageTags
+    currentImage.value = newImageSrc; // This should trigger reactivity
+
+    // Update tags (ensure this part is not erroring out and preventing subsequent updates)
+    try {
+      // Ensure imgDetails has an entry for the current image index, or default gracefully
+      if (!imgDetails.value[index]) {
+        console.warn(`[usePhotoGallery] No details found for image at index ${index}. Defaulting to empty tags.`);
+        imgDetails.value[index] = { tags: [] }; // Initialize if undefined
+      }
+      const details = imgDetails.value[index];
+      imageTags.value = details?.tags || [];
+      console.log(`[usePhotoGallery] Updated image tags for index ${index}:`, JSON.parse(JSON.stringify(imageTags.value)));
+    } catch (e) {
+      console.error(`[usePhotoGallery] Error updating image tags:`, e);
+      imageTags.value = [];
+    }
+
     showModal.value = true;
+    console.log(`[usePhotoGallery] Modal should be visible now. Current image reactive ref:`, currentImage.value);
     document.body.style.overflow = 'hidden';
   };
 

@@ -26,72 +26,72 @@
       leave-from-class="opacity-100"
       leave-to-class="opacity-0"
     >
-      <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-4">
+      <div class="modal fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 p-4" v-if="showModal" @click.self="hideImageFullScreen">
         <!-- Close Button -->
-        <button @click="hideImageFullScreen" class="absolute top-4 right-4 text-white hover:text-neutral-300 transition-colors z-50">
-          <svg class="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
+        <span class="close absolute top-4 right-6 text-white text-4xl cursor-pointer hover:text-neutral-300" @click="hideImageFullScreen">&times;</span>
 
-        <!-- Previous Image Button -->
-        <button @click="showPreviousImage" class="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-black bg-opacity-30 hover:bg-opacity-50 text-white rounded-full transition-colors focus:outline-none">
-          <svg class="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
-        </button>
+        <!-- Modal Content Wrapper -->
+        <div class="modal-content-wrapper flex flex-col items-center justify-center w-full max-w-5xl max-h-[95vh] bg-neutral-800 bg-opacity-0 rounded-lg relative">
 
-        <!-- Image and Tags Container -->
-        <div class="flex flex-col md:flex-row items-center justify-center max-w-screen-xl w-full max-h-full">
-          <img
-            :key="currentImage"
-            :src="currentImage"
-            alt="Full screen image"
-            class="max-w-[70vw] max-h-[80vh] object-contain rounded-md shadow-xl"
-          />
+          <!-- Image Display Area -->
+          <div class="image-display-area w-full flex-grow flex items-center justify-center overflow-hidden p-2 sm:p-4">
+            <img
+              :key="currentImage"
+              :src="currentImage"
+              alt="Full screen image"
+              class="block max-h-[calc(90vh-120px)] max-w-full object-contain rounded-md shadow-lg"
+              @load="onModalImageLoad"
+              @error="onModalImageError"
+            />
+            <!-- 120px is an estimate for arrows + tags area height -->
+          </div>
 
-          <!-- Tags Section -->
-          <div class="md:ml-6 mt-4 md:mt-0 p-4 bg-neutral-800 bg-opacity-70 rounded-lg shadow-xl text-white max-w-xs w-full overflow-y-auto max-h-[80vh]">
-            <h4 class="text-lg font-semibold mb-3 border-b border-neutral-600 pb-2">Image Tags</h4>
-
-            <div v-if="!addTags" class="mb-3 space-y-2 min-h-[50px]"> <!-- min-h for consistent size -->
-              <div v-if="imageTags.length === 0" class="text-sm text-neutral-300 italic">No tags yet.</div>
-              <span v-for="tag in imageTags" :key="tag" class="inline-block bg-secondary text-white text-xs font-semibold mr-2 mb-2 px-2.5 py-1 rounded-full">
-                {{ tag }}
-              </span>
-            </div>
-            <div v-else class="space-y-2 mb-3">
-              <input
-                v-for="(tagInput, i) in newTags"
-                :key="i"
-                type="text"
-                v-model="newTags[i]"
-                placeholder="Enter tag"
-                class="w-full p-2 bg-neutral-700 border border-neutral-600 rounded-md text-sm focus:ring-primary focus:border-primary"
-              />
-              <!-- Add button to allow adding more than 3 tag inputs if desired -->
+          <!-- Tags Display Area -->
+          <div class="tags-display-area w-full sm:w-auto max-w-xl flex-shrink-0 p-3 sm:p-4 space-y-3 overflow-y-auto max-h-[100px] sm:max-h-[120px] bg-neutral-900 bg-opacity-70 rounded-b-lg sm:rounded-lg sm:mt-2">
+            <!-- Edit Tags Button / View Tags -->
+            <div v-if="!addTags" class="flex flex-col items-center space-y-2">
+              <button @click="editTags" class="bg-info hover:bg-opacity-80 text-white py-2 px-4 rounded-md text-sm font-medium transition-colors">
+                <i class="fas fa-edit mr-2"></i>EDITAR ETIQUETAS
+              </button>
+              <div v-if="imageTags && imageTags.length > 0" class="flex flex-wrap justify-center gap-2">
+                <span v-for="tag in imageTags" :key="tag" class="span-tag bg-neutral-700 text-white px-3 py-1 rounded-full text-xs">
+                  <i class="fas fa-tag mr-1"></i>{{ tag }}
+                </span>
+              </div>
+              <p v-else class="text-neutral-400 text-xs italic">No tags yet.</p>
             </div>
 
-            <div class="space-y-3 pt-3 border-t border-neutral-600">
-              <button v-if="!addTags" @click="editTags" class="w-full bg-info hover:bg-opacity-90 text-white font-medium py-2 px-4 rounded-md text-sm transition-colors">
-                Edit Tags
-              </button>
-              <button v-if="addTags" @click="saveTags" class="w-full bg-success hover:bg-opacity-90 text-white font-medium py-2 px-4 rounded-md text-sm transition-colors">
-                Save Tags
-              </button>
-              <button @click="deletePhoto" class="w-full bg-danger hover:bg-opacity-90 text-white font-medium py-2 px-4 rounded-md text-sm transition-colors">
-                Delete Photo
+            <!-- Add/Edit Tags Form -->
+            <div v-else class="flex flex-col items-center space-y-3">
+              <div class="flex flex-wrap justify-center gap-2">
+                <input
+                  v-for="(tagInput, i) in newTags"
+                  :key="i"
+                  type="text"
+                  v-model="newTags[i]"
+                  placeholder="Tag..."
+                  class="bg-neutral-700 border border-neutral-600 text-white text-sm rounded-md p-2 focus:ring-primary focus:border-primary w-full sm:w-auto"
+                />
+              </div>
+              <button @click="saveTags" class="bg-success hover:bg-opacity-80 text-white py-2 px-5 rounded-md text-sm font-medium transition-colors">
+                <i class="fas fa-save mr-2"></i>GUARDAR ETIQUETAS
               </button>
             </div>
+
+            <!-- Delete Photo Button (always available or only when not editing tags) -->
+            <button v-if="!addTags" @click="deletePhoto" class="block mx-auto mt-2 bg-danger hover:bg-opacity-80 text-white py-2 px-4 rounded-md text-sm font-medium transition-colors">
+              <i class="fas fa-trash mr-2"></i>ELIMINAR FOTO
+            </button>
           </div>
         </div>
 
-        <!-- Next Image Button -->
-        <button @click="showNextImage" class="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-black bg-opacity-30 hover:bg-opacity-50 text-white rounded-full transition-colors focus:outline-none">
-          <svg class="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-          </svg>
-        </button>
+        <!-- Navigation Arrows -->
+        <div @click="showPreviousImage" class="arrow left-arrow absolute left-4 top-1/2 -translate-y-1/2 bg-black bg-opacity-30 text-white p-3 rounded-full cursor-pointer hover:bg-opacity-50 transition-all">
+          <i class="fa-solid fa-arrow-left text-xl"></i>
+        </div>
+        <div @click="showNextImage" class="arrow right-arrow absolute right-4 top-1/2 -translate-y-1/2 bg-black bg-opacity-30 text-white p-3 rounded-full cursor-pointer hover:bg-opacity-50 transition-all">
+          <i class="fa-solid fa-arrow-right text-xl"></i>
+        </div>
       </div>
     </Transition>
   </div>
@@ -99,6 +99,7 @@
 
 <script setup>
 import { useRouter } from "vue-router";
+import { watchEffect } from 'vue'; // Import watchEffect
 import ContFotos from '../components/ContFotos.vue';
 import { usePhotoGallery } from '../composables/usePhotoGallery';
 
@@ -127,6 +128,19 @@ const {
   deletePhoto,
 } = usePhotoGallery(initialImagenes, initialImgDetails, router);
 
+const onModalImageLoad = (event) => {
+  console.log('[HomeView Modal] Image loaded successfully:', event.target.src);
+};
+
+const onModalImageError = (event) => {
+  console.error('[HomeView Modal] Image failed to load:', event.target.src);
+};
+
+watchEffect(() => {
+  if (showModal.value) { // Only log when modal is supposed to be open
+    console.log('[HomeView watchEffect] currentImage for modal:', currentImage.value);
+  }
+});
 </script>
 
 <style scoped>
