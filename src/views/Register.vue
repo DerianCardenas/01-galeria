@@ -42,7 +42,7 @@
 
         <p class="mt-8 text-sm text-textSecondary">
           Already have an account?
-          <router-link to="/login" class="font-semibold text-primary hover:text-opacity-80 cursor-pointer transition-colors">
+          <router-link to="/auth/login" class="font-semibold text-primary hover:text-opacity-80 cursor-pointer transition-colors">
             Sign In
           </router-link>
         </p>
@@ -129,7 +129,7 @@ const performRegister = () => { // Renamed from 'login' for clarity
     }else{
         localStorage.setItem(username.value, JSON.stringify(user)) // Store user by username
         localStorage.setItem("user",JSON.stringify(user)) // Set current user for session
-        router.push("/inicio"); // Or your main gallery route e.g., "/" or "/photos"
+        router.push("/home"); // Updated redirect to /home
     }
 }
 </script>

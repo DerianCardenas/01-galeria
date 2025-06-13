@@ -43,9 +43,9 @@
 
         <p class="mt-8 text-sm text-textSecondary">
           Don't have an account?
-          <span @click="register" class="font-semibold text-primary hover:text-opacity-80 cursor-pointer transition-colors">
+          <router-link to="/auth/register" class="font-semibold text-primary hover:text-opacity-80 cursor-pointer transition-colors">
             Sign Up
-          </span>
+          </router-link>
         </p>
         <p class="mt-2 text-xs text-textSecondary">
           ¡Almacena todas tus fotos en un solo lugar!
@@ -120,7 +120,7 @@ const login = () => {
             if(userExistent.password == password.value){
                 // Set a general 'user' item for the logged-in session
                 localStorage.setItem("user", JSON.stringify(userExistent))
-                router.push("/inicio"); // Or your main gallery route e.g., "/" or "/photos"
+                router.push("/home"); // Updated redirect to /home
             }else{
                 Toast.fire({
                     icon:"error",
@@ -131,7 +131,7 @@ const login = () => {
     }
 }
 const register = () => {
-    router.push('/register')
+    // router.push('/register') // This function is no longer needed due to router-link
 }
 </script>
 
