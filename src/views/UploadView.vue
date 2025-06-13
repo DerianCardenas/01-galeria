@@ -184,6 +184,7 @@ const startUpload = async () => {
           setTimeout(() => {
              uploadProgress.value = 0; // Reset progress bar after a delay
              uploadedFiles.value = []; // Clear uploaded files list for next batch
+             router.push('/home'); // Navigate to home after resetting UI elements
           }, 2000);
         }
       };

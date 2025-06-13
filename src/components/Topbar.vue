@@ -1,10 +1,10 @@
 <template>
-  <nav class="bg-gray-800 text-white shadow-lg">
+  <nav class="bg-primary text-white shadow-lg">
     <div class="container mx-auto px-4">
       <div class="flex items-center justify-between h-16">
         <!-- Logo / App Title -->
         <div class="flex-shrink-0">
-          <router-link to="/" class="text-2xl font-bold hover:text-accent transition-colors">
+          <router-link to="/home" class="text-2xl font-bold hover:text-accent transition-colors">
             PhotoGallery
           </router-link>
         </div>
@@ -29,7 +29,7 @@
 
         <!-- User Profile Area -->
         <div class="flex items-center space-x-4">
-          <button @click="toggleUploadModal" class="p-2 rounded-full bg-gray-500 cursor-pointer hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-primary focus:ring-white" title="Upload Photo">
+          <button @click="toggleUploadModal" class="p-2 rounded-full hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-primary focus:ring-white" title="Upload Photo">
             <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
             </svg>
@@ -38,8 +38,8 @@
             <button @click="toggleProfileDropdown" class="flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-primary focus:ring-white">
               <span class="sr-only">Open user menu</span>
               <img
-                class="h-10 w-10 rounded-full object-cover border-2 border-white"
-                :src="imgSrc"
+                class="h-8 w-8 rounded-full object-cover border-2 border-white"
+                src="https://via.placeholder.com/100/CCCCCC/808080?Text=User"
                 alt="User profile"
               />
             </button>
@@ -52,9 +52,9 @@
               leave-to-class="transform opacity-0 scale-95"
             >
               <div v-if="isProfileDropdownOpen" class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-20">
-                <router-link to="/profile" class="block px-4 py-2 text-sm text-black hover:bg-gray-800 hover:text-white focus:outline-none focus:bg-neutral-100 focus:text-black">Your Profile</router-link>
-                <router-link to="/settings" class="block px-4 py-2 text-sm text-black hover:bg-gray-800 hover:text-white focus:outline-none focus:bg-neutral-100 focus:text-black">Settings</router-link>
-                <button @click="logout" class="w-full text-left block px-4 py-2 text-sm text-black hover:bg-gray-800 hover:text-white focus:outline-none focus:bg-neutral-100 focus:text-black cursor-pointer">
+                <router-link to="/profile" class="block px-4 py-2 text-sm text-textPrimary hover:bg-neutral-100 hover:text-textPrimary focus:outline-none focus:bg-neutral-100 focus:text-textPrimary">Your Profile</router-link>
+                <router-link to="/settings" class="block px-4 py-2 text-sm text-textPrimary hover:bg-neutral-100 hover:text-textPrimary focus:outline-none focus:bg-neutral-100 focus:text-textPrimary">Settings</router-link>
+                <button @click="logout" class="w-full text-left block px-4 py-2 text-sm text-textPrimary hover:bg-neutral-100 hover:text-textPrimary focus:outline-none focus:bg-neutral-100 focus:text-textPrimary">
                   Sign out
                 </button>
               </div>
@@ -70,10 +70,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-const data = JSON.parse(localStorage.getItem("user")) || { username: 'Guest', password: '', pfp: '', created_at: 'N/A', imagenes: [], detalles: [] }; // Fallback for data
 
-const defaultPfp = "https://static.vecteezy.com/system/resources/previews/020/911/740/original/user-profile-icon-profile-avatar-user-icon-male-icon-face-icon-profile-icon-free-png.png";
-const imgSrc = ref(data.pfp || defaultPfp);
 const router = useRouter();
 const searchQuery = ref('');
 const isProfileDropdownOpen = ref(false);
@@ -103,7 +100,7 @@ const logout = () => {
   // Implement actual logout logic (e.g., clear localStorage, call API)
   isProfileDropdownOpen.value = false;
   localStorage.removeItem('user'); // Example: clear user from local storage
-  router.push({ path: '/login' }); // Redirect to login
+  router.push({ path: '/auth/login' }); // Redirect to auth login
 };
 </script>
 
