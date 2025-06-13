@@ -1,6 +1,6 @@
 <template>
-  <aside class="w-64 bg-neutral-100 text-neutral-800 p-6 shadow-md space-y-4">
-    <h2 class="text-xl font-semibold text-textPrimary border-b border-neutral-300 pb-3">Menu</h2>
+  <aside class="w-64 bg-gray-800 text-neutral-800 p-6 shadow-md space-y-4">
+    <h2 class="text-xl font-semibold text-white border-b border-neutral-300 pb-3">Menu</h2>
 
     <nav class="space-y-2">
       <router-link
@@ -8,7 +8,7 @@
         :key="item.name"
         :to="item.path"
         class="flex items-center py-2.5 px-4 rounded-lg transition-colors duration-200 ease-in-out"
-        :class="isActive(item.path) ? 'bg-primary text-white shadow-sm' : 'text-textSecondary hover:bg-neutral-200 hover:text-textPrimary'"
+        :class="isActive(item.path) ? 'bg-gray-500 text-white shadow-sm' : 'bg-white text-textSecondary hover:bg-neutral-200 hover:text-textPrimary'"
       >
         <component :is="item.icon" class="h-5 w-5 mr-3" />
         <span>{{ item.name }}</span>
@@ -16,7 +16,7 @@
     </nav>
 
     <div class="pt-4 border-t border-neutral-300 space-y-2">
-      <h3 class="px-4 text-sm font-semibold text-neutral-500 uppercase tracking-wider">
+      <h3 class="px-4 text-sm font-semibold text-white uppercase tracking-wider">
         Library
       </h3>
       <router-link
@@ -24,7 +24,7 @@
         :key="item.name"
         :to="item.path"
         class="flex items-center py-2.5 px-4 rounded-lg transition-colors duration-200 ease-in-out"
-        :class="isActive(item.path) ? 'bg-primary text-white shadow-sm' : 'text-textSecondary hover:bg-neutral-200 hover:text-textPrimary'"
+        :class="isActive(item.path) ? 'bg-gray-500 text-white shadow-sm' : 'bg-white text-textSecondary hover:bg-neutral-200 hover:text-textPrimary'"
       >
         <component :is="item.icon" class="h-5 w-5 mr-3" />
         <span>{{ item.name }}</span>

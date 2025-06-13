@@ -1,5 +1,5 @@
 <template>
-  <nav class="bg-primary text-white shadow-lg">
+  <nav class="bg-gray-800 text-white shadow-lg">
     <div class="container mx-auto px-4">
       <div class="flex items-center justify-between h-16">
         <!-- Logo / App Title -->
@@ -29,7 +29,7 @@
 
         <!-- User Profile Area -->
         <div class="flex items-center space-x-4">
-          <button @click="toggleUploadModal" class="p-2 rounded-full bg-black cursor-pointer hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-primary focus:ring-white" title="Upload Photo">
+          <button @click="toggleUploadModal" class="p-2 rounded-full bg-gray-500 cursor-pointer hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-primary focus:ring-white" title="Upload Photo">
             <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
             </svg>

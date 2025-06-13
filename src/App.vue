@@ -6,7 +6,7 @@
       <Sidebar /> <!-- Use the Sidebar component -->
 
       <!-- Main Content Area -->
-      <main class="flex-1 p-6 overflow-y-auto bg-gallery-bg">
+      <main class="flex-1 p-6 overflow-y-auto bg-gray-700">
         <RouterView :key="$route.fullPath" />
       </main>
     </div>
