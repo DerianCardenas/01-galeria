@@ -1,8 +1,8 @@
 <template>
-  <div class="p-6 bg-white shadow-md rounded-lg">
+  <div class="p-6 rounded-lg">
     <h1 class="text-3xl font-bold text-primary mb-4">{{ pageTitle }}</h1>
-    <p class="text-textSecondary mb-2">Content for this page is under construction.</p>
-    <p v-if="searchQuery" class="text-textSecondary">
+    <p class="text-white mb-2">Content for this page is under construction.</p>
+    <p v-if="searchQuery" class="text-white">
       Search query: <span class="font-semibold text-accent">{{ searchQuery }}</span>
     </p>
     <router-link to="/" class="mt-6 inline-block bg-primary text-white py-2 px-4 rounded hover:bg-primary-dark transition-colors">

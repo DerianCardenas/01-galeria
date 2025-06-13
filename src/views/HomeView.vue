@@ -1,6 +1,6 @@
 <template>
   <div class="p-0"> <!-- Was .animate. Tailwind animations can be added later if needed. -->
-    <h3 v-if="imagenes.length > 0" class="text-2xl font-semibold text-textPrimary text-center my-6">
+    <h3 v-if="imagenes.length > 0" class="text-3xl font-semibold text-textPrimary text-center my-6">
       My Photos
     </h3>
     
@@ -31,10 +31,10 @@
         <span class="close absolute top-4 right-6 text-white text-4xl cursor-pointer hover:text-neutral-300" @click="hideImageFullScreen">&times;</span>
 
         <!-- Modal Content Wrapper -->
-        <div class="modal-content-wrapper flex flex-col items-center justify-center w-full max-w-5xl max-h-[95vh] bg-neutral-800 bg-opacity-0 rounded-lg relative">
+        <div class="modal-content-wrapper flex items-center justify-center w-8/9 max-h-[95vh] bg-neutral-800 bg-opacity-0 rounded-lg relative">
 
           <!-- Image Display Area -->
-          <div class="image-display-area w-full flex-grow flex items-center justify-center overflow-hidden p-2 sm:p-4">
+          <div class="image-display-area w-2/3 flex items-center justify-center overflow-hidden p-2 sm:p-4">
             <img
               :key="currentImage"
               :src="currentImage"
@@ -47,9 +47,10 @@
           </div>
 
           <!-- Tags Display Area -->
-          <div class="tags-display-area w-full sm:w-auto max-w-xl flex-shrink-0 p-3 sm:p-4 space-y-3 overflow-y-auto max-h-[100px] sm:max-h-[120px] bg-neutral-900 bg-opacity-70 rounded-b-lg sm:rounded-lg sm:mt-2">
+          <div class="tags-display-area w-1/3 sm:w-auto flex-shrink-0 p-3 sm:p-4 space-y-3 mx-auto
+          overflow-y-auto bg-neutral-900 bg-opacity-70 rounded-b-lg sm:rounded-lg sm:mt-2">
             <!-- Edit Tags Button / View Tags -->
-            <div v-if="!addTags" class="flex flex-col items-center space-y-2">
+            <div v-if="!addTags" class="flex w-full items-center space-y-2">
               <button @click="editTags" class="bg-info hover:bg-opacity-80 text-white py-2 px-4 rounded-md text-sm font-medium transition-colors">
                 <i class="fas fa-edit mr-2"></i>EDITAR ETIQUETAS
               </button>
@@ -62,18 +63,19 @@
             </div>
 
             <!-- Add/Edit Tags Form -->
-            <div v-else class="flex flex-col items-center space-y-3">
-              <div class="flex flex-wrap justify-center gap-2">
+            <div v-else class="gap-3 w-1/2 mx-auto">
+              <div class="flex flex-wrap justify-center gap-2 sm:w-auto">
                 <input
                   v-for="(tagInput, i) in newTags"
                   :key="i"
                   type="text"
                   v-model="newTags[i]"
                   placeholder="Tag..."
-                  class="bg-neutral-700 border border-neutral-600 text-white text-sm rounded-md p-2 focus:ring-primary focus:border-primary w-full sm:w-auto"
+                  class="bg-neutral-700 border border-neutral-600 text-white text-sm rounded-md p-2 focus:ring-primary focus:border-primary w-1/2 sm:w-auto"
                 />
               </div>
-              <button @click="saveTags" class="bg-success hover:bg-opacity-80 text-white py-2 px-5 rounded-md text-sm font-medium transition-colors">
+              <button @click="saveTags" class="bg-green-500 p-3 hover:bg-opacity-80 text-white mt-8 mx-auto rounded-md
+                    text-sm font-medium transition-colors cursor-pointer flex">
                 <i class="fas fa-save mr-2"></i>GUARDAR ETIQUETAS
               </button>
             </div>
@@ -144,7 +146,4 @@ watchEffect(() => {
 </script>
 
 <style scoped>
-/* All old scoped styles are removed. Tailwind utility classes are used directly in the template. */
-/* Any component-specific style that is extremely difficult or verbose to do with Tailwind
-   could be an exception, but the goal is to minimize or eliminate scoped CSS here. */
 </style>

@@ -1,6 +1,6 @@
 <template>
-  <aside class="w-64 bg-neutral-100 text-neutral-800 p-6 shadow-md space-y-4">
-    <h2 class="text-xl font-semibold text-textPrimary border-b border-neutral-300 pb-3">Menu</h2>
+  <aside class="w-64 bg-gray-800 text-neutral-800 p-6 shadow-md space-y-4">
+    <h2 class="text-xl font-semibold text-white border-b border-neutral-300 pb-3">Menu</h2>
 
     <nav class="space-y-2">
       <router-link
@@ -9,8 +9,8 @@
         :to="item.path"
         class="flex items-center py-2.5 px-4 rounded-lg transition-colors duration-200 ease-in-out"
         :class="isActive(item.path) ?
-          'bg-neutral-200 text-textPrimary shadow-sm' : /* Active: Light gray bg, Dark text */
-          'text-secondary hover:bg-neutral-100 hover:text-primary font-medium'  /* Default: Secondary text (teal), Hover: Primary text (blue) on lighter gray bg */
+          'bg-white text-textPrimary shadow-sm' :
+          'bg-gray-700 text-white text-secondary hover:bg-neutral-100 hover:text-black font-medium'
         "
       >
         <component :is="item.icon" class="h-5 w-5 mr-3" />
@@ -19,7 +19,7 @@
     </nav>
 
     <div class="pt-4 border-t border-neutral-300 space-y-2">
-      <h3 class="px-4 text-sm font-semibold text-neutral-500 uppercase tracking-wider">
+      <h3 class="px-4 text-sm font-semibold text-white uppercase tracking-wider">
         Library
       </h3>
       <router-link
@@ -28,8 +28,8 @@
         :to="item.path"
         class="flex items-center py-2.5 px-4 rounded-lg transition-colors duration-200 ease-in-out"
         :class="isActive(item.path) ?
-          'bg-neutral-200 text-textPrimary shadow-sm' : /* Active: Light gray bg, Dark text */
-          'text-secondary hover:bg-neutral-100 hover:text-primary font-medium'  /* Default: Secondary text (teal), Hover: Primary text (blue) on lighter gray bg */
+          'bg-white text-textPrimary shadow-sm' :
+          'bg-gray-700 text-white text-secondary hover:bg-neutral-100 hover:text-black font-medium'
         "
       >
         <component :is="item.icon" class="h-5 w-5 mr-3" />
@@ -52,16 +52,16 @@
 <script setup>
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
-import {
-  HomeIcon, PhotographIcon, UploadIcon, StarIcon, TrashIcon, CogIcon, ShareIcon
-} from '@heroicons/vue/24/outline'; // Using Heroicons (outline style)
+  import {
+    HomeIcon, PhotoIcon, ArrowUpTrayIcon, StarIcon, TrashIcon, CogIcon, ShareIcon
+  } from '@heroicons/vue/24/outline'; // Using Heroicons (outline style)
 
 const route = useRoute();
 
 const navigationItems = [
   { name: 'Home', path: '/home', icon: HomeIcon }, // Changed path to /home
-  { name: 'My Photos', path: '/photos', icon: PhotographIcon }, // Assuming '/photos' is the main gallery view
-  { name: 'Upload', path: '/upload', icon: UploadIcon },
+  { name: 'My Photos', path: '/photos', icon: PhotoIcon }, // Assuming '/photos' is the main gallery view
+  { name: 'Upload', path: '/upload', icon: ArrowUpTrayIcon },
 ];
 
 const libraryItems = [

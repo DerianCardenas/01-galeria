@@ -1,16 +1,8 @@
 <template>
-  <div class="auth-layout flex items-center justify-center min-h-screen bg-gradient-to-br from-neutral-100 to-neutral-300 p-4">
-    <!--
-      Removed dark mode classes for now to keep it simple with current palette,
-      can be added back if dark mode is configured in Tailwind.
-      The classes from-neutral-100 and to-neutral-300 use Tailwind's default gray palette if 'neutral'
-      is not extended to cover these shades in our custom palette.
-      Our custom 'neutral' palette starts from 100, so this should work.
-    -->
-    <main class="w-full max-w-md">
-      <router-view />
-    </main>
-  </div>
+
+  <main class="w-full">
+    <router-view />
+  </main>
 </template>
 
 <script setup>

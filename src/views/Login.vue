@@ -3,51 +3,87 @@
     <!-- Form Section -->
     <div class="w-full md:w-1/2 lg:w-2/5 flex flex-col justify-center items-center p-8 sm:p-12">
       <div class="w-full max-w-md text-center">
-        <img class="mx-auto h-20 w-auto rounded-lg shadow-md mb-8" src="../assets/img/galeria.png" alt="Galeria Logo">
-        <h1 class="text-3xl font-bold text-textPrimary mb-3">Sign In</h1>
-        <p class="text-sm text-textSecondary mb-8">Welcome back! Please enter your details.</p>
+        <!-- Logo -->
+        <img
+            class="mx-auto h-20 w-auto rounded-lg shadow-md mb-8"
+            src="../assets/img/galeria.png"
+            alt="Galeria Logo"
+        >
 
+        <!-- Title and subtitle -->
+        <h1 class="text-3xl font-bold text-white mb-3">
+          Sign In
+        </h1>
+        <p class="text-sm text-gray-300 mb-8">
+          Welcome back! Please enter your details.
+        </p>
+
+        <!-- Login Form -->
         <form @submit.prevent="login" class="space-y-6">
+          <!-- Username Field -->
           <div>
-            <label for="username" class="block text-sm font-medium text-textPrimary text-left mb-1">Username</label>
+            <label
+                for="username"
+                class="block text-sm font-medium text-white text-left mb-1"
+            >
+              Username
+            </label>
             <input
-              type="text"
-              id="username"
-              v-model="username"
-              placeholder="Enter your username"
-              class="w-full px-4 py-3 border border-neutral-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow"
-              required
+                type="text"
+                id="username"
+                v-model="username"
+                placeholder="Enter your username"
+                class="w-full px-4 py-3 border border-neutral-300 rounded-lg shadow-sm
+                     focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent
+                     transition-shadow"
+                required
             />
           </div>
 
+          <!-- Password Field -->
           <div>
-            <label for="password" class="block text-sm font-medium text-textPrimary text-left mb-1">Password</label>
+            <label
+                for="password"
+                class="block text-sm font-medium text-white text-left mb-1"
+            >
+              Password
+            </label>
             <input
-              type="password"
-              id="password"
-              v-model="password"
-              placeholder="Enter your password"
-              class="w-full px-4 py-3 border border-neutral-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow"
-              required
+                type="password"
+                id="password"
+                v-model="password"
+                placeholder="Enter your password"
+                class="w-full px-4 py-3 border border-neutral-300 rounded-lg shadow-sm
+                     focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent
+                     transition-shadow"
+                required
             />
-            <!-- Add forgot password link if needed -->
           </div>
 
+          <!-- Submit Button -->
           <button
-            type="submit"
-            class="w-full bg-primary text-white font-semibold py-3 px-4 rounded-lg shadow-md hover:bg-opacity-80 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 transition-all transform hover:scale-105"
+              type="submit"
+              class="w-full bg-primary text-white font-semibold py-3 px-4 rounded-lg border-1 border-white cursor-pointer
+                   hover:bg-opacity-80 focus:outline-none focus:ring-2 focus:ring-primary
+                   focus:ring-opacity-50 transition-all transform hover:scale-[1.02]"
           >
             Sign In
           </button>
         </form>
 
-        <p class="mt-8 text-sm text-textSecondary">
+        <!-- Sign Up Link -->
+        <p class="mt-8 text-sm text-gray-300">
           Don't have an account?
-          <router-link to="/auth/register" class="font-semibold text-primary hover:text-opacity-80 cursor-pointer transition-colors">
+          <router-link
+              to="/auth/register"
+              class="font-semibold text-blue-500 hover:text-opacity-80 cursor-pointer transition-colors"
+          >
             Sign Up
           </router-link>
         </p>
-        <p class="mt-2 text-xs text-textSecondary">
+
+        <!-- Footer Text -->
+        <p class="mt-2 text-xs text-gray-300">
           ¡Almacena todas tus fotos en un solo lugar!
         </p>
       </div>
@@ -61,18 +97,19 @@
           :items-to-scroll="1"
           :snap-align="'center'"
           :wrap-around="true"
-          class="h-full">
+          class="h-full"
+      >
         <slide v-for="slideSrc in slides" :key="slideSrc">
-          <img class="w-full h-screen object-cover" :src="slideSrc" alt="Gallery preview">
+          <img
+              class="w-full h-screen object-cover"
+              :src="slideSrc"
+              alt="Gallery preview"
+          >
         </slide>
-        <template #addons>
-          <Pagination />
-        </template>
       </carousel>
     </div>
   </div>
 </template>
-
 <script setup>
 import 'vue3-carousel/dist/carousel.css' // Keep this for carousel base styles
 import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'

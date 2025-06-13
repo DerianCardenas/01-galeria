@@ -1,7 +1,7 @@
 <template>
   <div class="p-6 sm:p-10 bg-gallery-bg min-h-full">
     <div class="max-w-3xl mx-auto">
-      <h1 class="text-3xl font-semibold text-textPrimary mb-8">Upload Your Photos</h1>
+      <h1 class="text-3xl font-semibold text-textPrimary mb-8 text-center">Upload Your Photos</h1>
 
       <div
         @dragover.prevent="onDragOver"
@@ -34,7 +34,9 @@
 
         <button
           @click="triggerFileInput"
-          class="bg-primary text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 transition-all transform hover:scale-105"
+          class="bg-primary border-1 border-white text-white font-semibold py-3 px-6 rounded-lg shadow-md cursor-pointer
+                hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 focus:bg-white focus:text-gray-700
+                transition-all transform hover:scale-105"
         >
           Browse Files
         </button>

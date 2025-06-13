@@ -1,7 +1,5 @@
 
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+@import "tailwindcss";
 
 /* Keeping existing font variables and base text rendering setup.
    Color variables and conflicting layout/typographic defaults are removed

@@ -16,7 +16,7 @@
           <button
             v-if="!editUser"
             @click="editUser = true"
-            class="mt-4 text-primary border border-primary hover:bg-primary hover:text-white font-semibold py-2 px-6 rounded-lg shadow-sm transition-colors"
+            class="mt-4 text-primary border border-primary hover:bg-gray-700 hover:text-white font-semibold py-2 px-6 rounded-lg shadow-sm transition-colors"
           >
             Edit Profile
           </button>
@@ -100,7 +100,7 @@
                 :disabled="!blockSave"
                 @click="openModal"
                 class="font-semibold py-2.5 px-6 rounded-lg shadow transition-colors"
-                :class="blockSave ? 'bg-success text-white hover:bg-opacity-90' : 'bg-neutral-300 text-neutral-500 cursor-not-allowed'"
+                :class="blockSave ? 'bg-green-500 text-white hover:bg-opacity-90' : 'bg-neutral-300 text-neutral-500 cursor-not-allowed'"
               >
                 Save Changes
               </button>
