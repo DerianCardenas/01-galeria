@@ -8,7 +8,10 @@
         :key="item.name"
         :to="item.path"
         class="flex items-center py-2.5 px-4 rounded-lg transition-colors duration-200 ease-in-out"
-        :class="isActive(item.path) ? 'bg-gray-500 text-white shadow-sm' : 'bg-white text-textSecondary hover:bg-neutral-200 hover:text-textPrimary'"
+        :class="isActive(item.path) ?
+          'bg-gray-500 text-white shadow-sm' : /* Active: Light gray bg, Dark text */
+          'bg-white text-secondary hover:bg-neutral-100 hover:text-primary font-medium'  /* Default: Secondary text (teal), Hover: Primary text (blue) on lighter gray bg */
+        "
       >
         <component :is="item.icon" class="h-5 w-5 mr-3" />
         <span>{{ item.name }}</span>
@@ -24,7 +27,10 @@
         :key="item.name"
         :to="item.path"
         class="flex items-center py-2.5 px-4 rounded-lg transition-colors duration-200 ease-in-out"
-        :class="isActive(item.path) ? 'bg-gray-500 text-white shadow-sm' : 'bg-white text-textSecondary hover:bg-neutral-200 hover:text-textPrimary'"
+        :class="isActive(item.path) ?
+          'bg-gray-500 text-white shadow-sm' : /* Active: Light gray bg, Dark text */
+          'bg-white text-secondary hover:bg-neutral-100 hover:text-primary font-medium'  /* Default: Secondary text (teal), Hover: Primary text (blue) on lighter gray bg */
+        "
       >
         <component :is="item.icon" class="h-5 w-5 mr-3" />
         <span>{{ item.name }}</span>

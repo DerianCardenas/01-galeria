@@ -19,14 +19,13 @@
         v-for="(image, index) in imagenes"
         :key="image.id || index"
         @click="showImageFullScreen(index)"
-          class="image-container group relative aspect-square overflow-hidden rounded-lg shadow-md cursor-pointer transition-all duration-300 ease-in-out hover:shadow-xl hover:scale-105 bg-neutral-200"
+          class="image-container group relative aspect-square overflow-hidden rounded-lg shadow-md cursor-pointer bg-neutral-300 min-w-[100px] min-h-[100px]"
       >
         <img
           :src="image.src || image"
           :alt="image.alt || 'Gallery image ' + (index + 1)"
-          class="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
-          @load="onImageLoad"
-          loading="lazy"
+          class="w-full h-full object-cover"
+          @error="onImageError(index)"
         />
         <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-300 ease-in-out flex items-center justify-center">
           <!-- Optional: Show an icon or info on hover -->
@@ -40,7 +39,7 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue'; // defineEmits is imported but not used in the provided script
+import { defineProps, onMounted, watch } from 'vue';
 
 const props = defineProps({
   imagenes: {
@@ -69,8 +68,24 @@ const showImageFullScreen = (index) => {
 
 const onImageLoad = (event) => {
     // Placeholder for any logic needed on image load.
-    // event.target.style.opacity = 1; // This line is removed as initial opacity is no longer 0.
+    // This function is currently not bound to @load in the simplified img tag for debugging.
+    // If re-added, ensure it doesn't interfere with basic visibility.
 };
+
+const onImageError = (index) => {
+  console.error(`Error loading image at index ${index}:`, props.imagenes[index]?.src || props.imagenes[index]);
+  // Optionally, set a flag to display a placeholder for this specific errored image
+  // For example: event.target.src = 'path/to/error-placeholder.png';
+  // However, be careful with recursive errors if the placeholder itself fails.
+};
+
+onMounted(() => {
+  console.log('ContFotos mounted. Images received:', JSON.parse(JSON.stringify(props.imagenes)));
+});
+
+watch(() => props.imagenes, (newImagenes) => {
+  console.log('ContFotos images updated:', JSON.parse(JSON.stringify(newImagenes)));
+}, { deep: true });
 
 // Ensure that the `imagenes` prop expects objects with `src` and `alt` or just strings.
 // The template uses `image.src || image` to handle both cases.
@@ -80,9 +95,8 @@ const onImageLoad = (event) => {
 
 <style scoped>
 .image-container img {
-  /* opacity: 0; */ /* Removed for troubleshooting image visibility */
-  /* transition: opacity 0.5s ease-in-out, transform 0.3s ease-in-out; */ /* Transition for opacity also removed */
-  transition: transform 0.3s ease-in-out; /* Keep only transform transition if needed */
+  /* Opacity and related transitions are removed for debugging */
+  transition: transform 0.3s ease-in-out; /* Kept group-hover:scale-110 related transition if img class is restored */
 }
 /* Additional styles for loading placeholders or specific aspect ratio handling if needed beyond Tailwind. */
 </style>
