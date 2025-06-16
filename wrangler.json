@@ -1,0 +1,8 @@
+{
+  "name": "01-gallery",
+  "compatibility_date": "2025-06-16",
+  "assets": {
+    "directory": "./dist",
+    "include": ["**/*"]
+  }
+}
